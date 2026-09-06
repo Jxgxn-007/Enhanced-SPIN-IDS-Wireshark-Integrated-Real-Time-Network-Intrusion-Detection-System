@@ -1,0 +1,9 @@
+@"
+target/
+.idea/
+.vscode/
+*.iml
+dataset/captures/*.pcap
+dataset/captures/*.pcapng
+dataset/images/*.png
+"@ | Set-Content .gitignore
