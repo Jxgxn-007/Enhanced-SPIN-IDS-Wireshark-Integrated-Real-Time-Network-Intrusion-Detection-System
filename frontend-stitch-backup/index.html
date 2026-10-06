@@ -1,0 +1,1171 @@
+<!DOCTYPE html><html class="dark" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#0f131c;color:#dfe2ef;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-background": "#dfe2ef", "surface-bright": "#353943", "outline": "#88929b", "error-container": "#93000a", "tertiary-fixed-dim": "#4edea3", "surface-variant": "#31353f", "outline-variant": "#3e4850", "secondary-container": "#00a6e0", "error": "#ffb4ab", "on-secondary-fixed-variant": "#004c69", "tertiary-fixed": "#6ffbbe", "primary-container": "#0ea5e9", "on-primary-fixed-variant": "#004c6e", "on-tertiary": "#003824", "secondary-fixed": "#c4e7ff", "on-tertiary-fixed-variant": "#005236", "on-secondary-container": "#00374d", "primary-fixed": "#c9e6ff", "surface-container-high": "#262a34", "on-primary-fixed": "#001e2f", "surface-dim": "#0f131c", "on-tertiary-fixed": "#002113", "surface-tint": "#89ceff", "inverse-surface": "#dfe2ef", "primary-fixed-dim": "#89ceff", "surface-container-highest": "#31353f", "surface-container-low": "#181b25", "on-surface-variant": "#bec8d2", "tertiary-container": "#00b17b", "on-tertiary-container": "#003b26", "secondary": "#7bd0ff", "inverse-on-surface": "#2c303a", "on-secondary": "#00354a", "on-secondary-fixed": "#001e2c", "surface-container": "#1c1f29", "on-primary": "#00344d", "on-surface": "#dfe2ef", "secondary-fixed-dim": "#7bd0ff", "tertiary": "#4edea3", "on-error": "#690005", "primary": "#89ceff", "on-primary-container": "#003751", "on-error-container": "#ffdad6", "surface": "#0f131c", "surface-container-lowest": "#0a0e17", "background": "#0f131c", "inverse-primary": "#006591" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xs": "0.25rem", "space-xl": "1.5rem", "gutter": "1rem", "gutter-sm": "0.5rem", "margin-mobile": "0.75rem", "margin": "1.25rem", "space-md": "0.75rem", "gutter-lg": "1.5rem", "space-sm": "0.5rem", "space-lg": "1rem" }, "fontFamily": { "body-sm": ["Inter"], "headline-lg": ["Inter"], "mono-lg": ["JetBrains Mono"], "body-lg": ["Inter"], "display-lg": ["Inter"], "body-md": ["Inter"], "headline-sm": ["Inter"], "label-caps": ["Inter"], "mono-sm": ["JetBrains Mono"], "mono-md": ["JetBrains Mono"] }, "fontSize": { "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "mono-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "body-lg": ["15px", { "lineHeight": "22px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "display-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-sm": ["16px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600" }], "mono-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "400" }], "mono-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }] } } } }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 inset-x-0 z-50 bg-surface-container/90 backdrop-blur-xl pt-safe"><div class="h-16 px-gutter-sm flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><button aria-label="Open telemetry drawer" class="w-11 h-11 flex items-center justify-center text-on-surface hover:text-primary transition-colors" id="sidebar-open-btn" onclick="document.getElementById('soc-sidebar').classList.remove('-translate-x-full');document.getElementById('soc-backdrop').classList.remove('opacity-0','pointer-events-none');"><span class="material-symbols-outlined text-[22px]">menu</span></button><div class="flex items-center gap-space-xs"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px]">security</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">SPIN-IDS</span><span class="font-mono-sm text-mono-sm text-on-surface-variant flex items-center gap-1 mt-0.5"><span class="inline-block w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>LIVE <span class="text-outline">|</span> 124 PPS</span></div></div></div><div class="flex items-center gap-space-xs"><button aria-label="Alerts" class="relative w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 min-w-[15px] h-[15px] px-0.5 rounded-full bg-error-container text-error font-mono-sm text-[9px] flex items-center justify-center font-bold">1</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><div class="fixed inset-0 z-50 bg-surface-container-lowest/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" id="soc-backdrop" onclick="document.getElementById('soc-sidebar').classList.add('-translate-x-full');this.classList.add('opacity-0','pointer-events-none');"></div><aside class="fixed top-0 left-0 bottom-0 z-50 w-72 max-w-[85vw] bg-surface-container-low backdrop-blur-2xl -translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between pt-safe pb-safe shadow-[0_4px_24px_rgba(0,0,0,0.6)]" id="soc-sidebar"><div class="flex flex-col h-full"><div class="p-gutter flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]">hub</span></div><div><div class="font-headline-sm text-headline-sm text-on-surface">SPIN-IDS</div><div class="font-mono-sm text-mono-sm text-on-surface-variant">Packet CNN Engine</div></div></div><button aria-label="Close Drawer" class="w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface" onclick="document.getElementById('soc-sidebar').classList.add('-translate-x-full');document.getElementById('soc-backdrop').classList.add('opacity-0','pointer-events-none');"><span class="material-symbols-outlined text-[20px]">close</span></button></div><div class="px-gutter py-space-xs font-label-caps text-label-caps text-outline uppercase tracking-wider">Inspection Rails</div><nav class="flex-1 overflow-y-auto px-gutter-sm space-y-0.5" data-active-classes="bg-surface-container-high text-primary font-medium"><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg transition-colors bg-surface-container-high text-primary font-medium" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span class="font-body-md text-body-md">Dashboard</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="live-monitoring" href="#"><span class="material-symbols-outlined text-[20px]">radar</span><span class="font-body-md text-body-md">Live Monitoring</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="traffic-analysis" href="#"><span class="material-symbols-outlined text-[20px]">query_stats</span><span class="font-body-md text-body-md">Traffic Analysis</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="detection-results" href="#"><span class="material-symbols-outlined text-[20px]">qr_code_2</span><span class="font-body-md text-body-md">Detection Results</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="pcap-captures" href="#"><span class="material-symbols-outlined text-[20px]">dataset</span><span class="font-body-md text-body-md">PCAP Captures</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="packet-images" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-md text-body-md">Packet Images</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="detection-logs" href="#"><span class="material-symbols-outlined text-[20px]">terminal</span><span class="font-body-md text-body-md">Detection Logs</span></a></nav><div class="m-gutter p-space-md rounded-lg bg-surface-container-lowest"><div class="font-label-caps text-label-caps text-outline uppercase mb-space-xs">Engine Health</div><div class="space-y-1.5 font-mono-sm text-mono-sm"><div class="flex items-center justify-between"><span class="text-on-surface-variant">Npcap Driver</span><span class="text-tertiary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Online</span></div><div class="flex items-center justify-between"><span class="text-on-surface-variant">SPIN-IDS CNN</span><span class="text-tertiary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Loaded</span></div><div class="flex items-center justify-between"><span class="text-on-surface-variant">ONNX Runtime</span><span class="text-secondary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>Ready</span></div></div></div><div class="p-gutter bg-surface-container-high/60 flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex-1 min-w-0"><div class="font-body-md text-body-md text-on-surface font-semibold truncate">Security Analyst</div><div class="font-mono-sm text-mono-sm text-outline truncate">Tier 3 Administrator</div></div><span class="material-symbols-outlined text-outline text-[18px]">lock</span></div></div></aside><main class="flex flex-col relative w-full pt-16 pb-20 bg-surface min-h-screen"><div class="flex flex-col w-full text-on-surface">
+<!-- TOP CONTEXT BANNER & OPERATIONAL STATUS -->
+<section class="p-gutter pb-space-sm">
+<div class="flex items-center justify-between gap-space-sm mb-space-xs">
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider text-primary">SPIN-IDS CNN</span>
+<span class="font-mono-sm text-mono-sm text-outline">|</span>
+<span class="font-mono-sm text-mono-sm text-on-surface-variant truncate">eth0 / lo0 (127.0.0.1)</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-0.5 font-semibold">
+          Sequential Packet IDS
+        </h1>
+</div>
+<span class="px-2 py-1 rounded-lg bg-tertiary-container/20 text-tertiary font-mono-sm text-mono-sm flex items-center gap-1 shrink-0 font-medium" id="live-pcap-state-chip">
+<span class="material-symbols-outlined text-[14px]">sensors</span>
+<span id="live-pcap-state-text" class="">NORMAL</span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">
+      2D-CNN feature tensor classification on raw sequential packet windows
+    </p>
+</section>
+<!-- CONTROL RAIL -->
+<section class="px-gutter pb-space-md">
+<div class="p-space-sm rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between gap-space-xs font-mono-sm text-mono-sm text-on-surface-variant px-1">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-primary">lan</span>
+<span class="">Buffer: <strong class="text-on-surface">50 Pkts/Win</strong></span>
+</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-tertiary">memory</span>
+<span class="">ONNX: <strong class="text-on-surface">11.4 ms</strong></span>
+</span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs">
+<button class="h-9 px-2 rounded bg-tertiary text-on-tertiary font-body-sm font-semibold flex items-center justify-center gap-1 shadow-sm active:opacity-80 transition-opacity" id="btn-start" onclick="toggleEngineState('RUNNING')">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+<span class="">Capture</span>
+</button>
+<button class="h-9 px-2 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface font-body-sm font-semibold flex items-center justify-center gap-1 active:opacity-80 transition-opacity" id="btn-stop" onclick="toggleEngineState('STOPPED')">
+<span class="material-symbols-outlined text-[16px]">stop</span>
+<span class="">Halt</span>
+</button>
+<button class="h-9 px-2 rounded bg-surface-variant text-secondary font-body-sm font-semibold flex items-center justify-center gap-1 active:opacity-80 transition-all" id="btn-trigger-anomaly" onclick="triggerAnomalySimulation()">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span class="">Simulate</span>
+</button>
+</div>
+</div>
+</section>
+<!-- VIEW SWITCHER TABS -->
+<div class="px-gutter pb-space-md">
+<div class="grid grid-cols-4 p-0.5 rounded-lg bg-surface-container-lowest text-center">
+<button class="tab-btn py-1.5 px-1 rounded-md text-primary bg-surface-container-high font-body-sm font-semibold transition-all" onclick="switchTab('tab-overview', this)">
+        Overview
+      </button>
+<button class="tab-btn py-1.5 px-1 rounded-md text-on-surface-variant font-body-sm font-medium transition-all" onclick="switchTab('tab-monitor', this)">
+        Stream
+      </button>
+<button class="tab-btn py-1.5 px-1 rounded-md text-on-surface-variant font-body-sm font-medium transition-all" onclick="switchTab('tab-images', this)">
+        Tensors
+      </button>
+<button class="tab-btn py-1.5 px-1 rounded-md text-on-surface-variant font-body-sm font-medium transition-all" onclick="switchTab('tab-system', this)">
+        Engine
+      </button>
+</div>
+</div>
+<!-- TAB 1: OVERVIEW -->
+<div class="tab-pane flex flex-col gap-space-md" id="tab-overview">
+<!-- 2X2 TELEMETRY KPIS -->
+<section class="px-gutter grid grid-cols-2 gap-space-sm">
+<!-- Card 1 -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-1">
+<span class="font-label-caps text-label-caps uppercase tracking-wider">SPIN-IDS CNN</span>
+<div class="w-6 h-6 rounded bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px]">layers</span>
+</div>
+</div>
+<div>
+<div class="font-mono-lg text-headline-sm font-bold text-on-surface" id="kpi-packets">12,458</div>
+<div class="flex items-center gap-1 mt-0.5 font-mono-sm text-mono-sm text-tertiary">
+<span class="material-symbols-outlined text-[13px]">trending_up</span>
+<span class="">+8.4% drift</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-1">
+<span class="font-label-caps text-label-caps uppercase tracking-wider">SPIN-IDS CNN</span>
+<div class="w-6 h-6 rounded bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[15px]">speed</span>
+</div>
+</div>
+<div>
+<div class="font-mono-lg text-headline-sm font-bold text-on-surface" id="kpi-rate">124 <span class="text-body-sm font-normal text-on-surface-variant">PPS</span></div>
+<div class="flex items-center gap-1 mt-0.5 font-mono-sm text-mono-sm text-on-surface-variant">
+<span class="">Limit:</span>
+<span class="text-outline">500 PPS</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-1">
+<span class="font-label-caps text-label-caps uppercase tracking-wider">SPIN-IDS CNN</span>
+<div class="w-6 h-6 rounded bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[15px]">grid_4x4</span>
+</div>
+</div>
+<div>
+<div class="font-mono-lg text-headline-sm font-bold text-on-surface">1,506</div>
+<div class="flex items-center gap-1 mt-0.5 font-mono-sm text-mono-sm text-on-surface-variant">
+<span class="">Stride:</span>
+<span class="text-primary font-mono-sm">9 pkts/win</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col justify-between"><div class="flex items-center justify-between text-on-surface-variant mb-1"><span class="font-label-caps text-label-caps uppercase tracking-wider">MALICIOUS WINDOWS</span><div class="w-6 h-6 rounded bg-surface-container-high flex items-center justify-center text-error"><span class="material-symbols-outlined text-[15px]">flip_camera_ios</span></div></div><div><div class="font-mono-lg text-headline-sm font-bold text-error" id="kpi-threats">12</div><div class="flex items-center gap-1 mt-0.5 font-mono-sm text-mono-sm text-on-surface-variant"><span class="w-1.5 h-1.5 rounded-full bg-error"></span><span class="">Session window count</span></div></div></div>
+</section>
+<!-- ALERT BANNER (CRITICAL DETECTION NOTICE) -->
+<section class="px-gutter">
+<div class="p-space-md rounded-xl bg-surface-container-high shadow-md flex flex-col gap-space-sm relative overflow-hidden" id="alert-banner"><div class="flex items-start justify-between gap-space-sm"><div class="flex items-start gap-space-sm"><div class="w-7 h-7 rounded bg-error-container text-error flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[18px]">warning</span></div><div><div class="font-headline-sm text-[14px] font-semibold text-error tracking-tight">MALICIOUS TRAFFIC DETECTED</div><div class="font-mono-sm text-mono-sm text-on-surface-variant">CNN Inference • Window 02 • 23:11:16</div></div></div><div class="flex flex-col items-end gap-1"><span class="px-2 py-0.5 rounded bg-surface-variant text-secondary font-mono-sm text-[11px] font-bold">CONF 50.03% • LEVEL: LOW</span><span class="px-1.5 py-0.2 rounded bg-surface-container-lowest text-outline font-label-caps text-[9px] uppercase tracking-wider">LOW CONFIDENCE</span></div></div><div class="p-space-xs rounded bg-surface-container-lowest font-mono-sm text-mono-sm flex items-center justify-between text-on-surface-variant"><span class="truncate">anomaly_capture_20260921_231115.pcap</span><span class="text-secondary shrink-0">6.1 KB</span></div><p class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Traffic spike (&gt;500 PPS) triggered automated PCAP capture. Sequential packet windows were converted into 27×27 RGB representations for CNN inference.</p><div class="flex items-center gap-space-xs pt-1"><button class="flex-1 h-8 rounded bg-error-container text-on-surface font-body-sm font-semibold flex items-center justify-center gap-1 active:opacity-80" onclick="openModal('Window 02', 'MALICIOUS', '50.03%', '49.97%', 'SYN Flood Signature')"><span class="material-symbols-outlined text-[16px]">visibility</span><span class="">Inspect Window 02</span></button><button class="h-8 px-3 rounded bg-surface-container text-on-surface font-body-sm flex items-center justify-center gap-1 active:opacity-80" onclick="downloadPcapMock()"><span class="material-symbols-outlined text-[16px]">download</span><span class="">PCAP</span></button></div></div>
+</section>
+<!-- DETECTION PIPELINE FLOW STEPPER -->
+<section class="px-gutter"><div class="p-space-md rounded-xl bg-surface-container shadow-sm"><div class="flex items-center justify-between mb-space-sm"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">account_tree</span><span class="font-headline-sm text-headline-sm font-semibold text-on-surface">SPIN-IDS Pipeline</span></div><span class="font-mono-sm text-mono-sm text-tertiary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>8/8 Active</span></div><div class="overflow-x-auto pb-1 -mx-space-xs px-space-xs flex items-center gap-2"><div class="flex flex-col items-center min-w-[90px] p-2 rounded-lg bg-surface-container-low text-center shrink-0"><span class="font-label-caps text-[10px] text-primary uppercase">Stage 01</span><span class="font-headline-sm text-[12px] text-on-surface font-semibold mt-0.5">Raw Traffic</span><span class="font-mono-sm text-[10px] text-tertiary mt-1">eth0 Live</span></div><span class="material-symbols-outlined text-outline text-[14px] shrink-0">chevron_right</span><div class="flex flex-col items-center min-w-[90px] p-2 rounded-lg bg-surface-container-low text-center shrink-0"><span class="font-label-caps text-[10px] text-primary uppercase">Stage 02</span><span class="font-headline-sm text-[12px] text-on-surface font-semibold mt-0.5">PPS Monitor</span><span class="font-mono-sm text-[10px] text-secondary mt-1">124 PPS</span></div><span class="material-symbols-outlined text-outline text-[14px] shrink-0">chevron_right</span><div class="flex flex-col items-center min-w-[90px] p-2 rounded-lg bg-surface-container-low text-center shrink-0"><span class="font-label-caps text-[10px] text-error uppercase">Stage 03</span><span class="font-headline-sm text-[12px] text-on-surface font-semibold mt-0.5">Rate Anomaly</span><span class="font-mono-sm text-[10px] text-error mt-1">&gt; 500 PPS</span></div><span class="material-symbols-outlined text-outline text-[14px] shrink-0">chevron_right</span><div class="flex flex-col items-center min-w-[90px] p-2 rounded-lg bg-surface-container-low text-center shrink-0"><span class="font-label-caps text-[10px] text-primary uppercase">Stage 04</span><span class="font-headline-sm text-[12px] text-on-surface font-semibold mt-0.5">PCAP Capture</span><span class="font-mono-sm text-[10px] text-on-surface-variant mt-1">Auto Dump</span></div><span class="material-symbols-outlined text-outline text-[14px] shrink-0">chevron_right</span><div class="flex flex-col items-center min-w-[90px] p-2 rounded-lg bg-surface-container-low text-center shrink-0"><span class="font-label-caps text-[10px] text-primary uppercase">Stage 05</span><span class="font-headline-sm text-[12px] text-on-surface font-semibold mt-0.5">Sequential Window</span><span class="font-mono-sm text-[10px] text-on-surface-variant mt-1">9 pkts/win</span></div><span class="material-symbols-outlined text-outline text-[14px] shrink-0">chevron_right</span><div class="flex flex-col items-center min-w-[90px] p-2 rounded-lg bg-surface-container-low text-center shrink-0"><span class="font-label-caps text-[10px] text-secondary uppercase">Stage 06</span><span class="font-headline-sm text-[12px] text-on-surface font-semibold mt-0.5">27×27 RGB Image</span><span class="font-mono-sm text-[10px] text-secondary mt-1">729-px Tensor</span></div><span class="material-symbols-outlined text-outline text-[14px] shrink-0">chevron_right</span><div class="flex flex-col items-center min-w-[90px] p-2 rounded-lg bg-surface-container-low text-center shrink-0"><span class="font-label-caps text-[10px] text-primary uppercase">Stage 07</span><span class="font-headline-sm text-[12px] text-on-surface font-semibold mt-0.5">CNN / ONNX</span><span class="font-mono-sm text-[10px] text-primary mt-1">11.4 ms</span></div><span class="material-symbols-outlined text-outline text-[14px] shrink-0">chevron_right</span><div class="flex flex-col items-center min-w-[90px] p-2 rounded-lg bg-surface-container-low text-center shrink-0"><span class="font-label-caps text-[10px] text-primary uppercase">Stage 08</span><span class="font-headline-sm text-[12px] text-on-surface font-semibold mt-0.5">Detection Result</span><span class="font-mono-sm text-[10px] text-on-surface font-bold mt-1">Classification</span></div></div><div class="p-space-xs mt-space-sm rounded bg-surface-container-low font-body-sm text-[11px] text-on-surface-variant flex items-start gap-1.5 border border-outline-variant/30"><span class="material-symbols-outlined text-secondary text-[16px] shrink-0 mt-0.5">info</span><span class=""><strong>ANOMALY</strong> = Traffic rate threshold exceeded (&gt;500 PPS). <strong>MALICIOUS</strong> = Deep CNN classification output on 27×27 RGB packet tensor.</span></div></div></section>
+<!-- SEQUENTIAL PACKET IMAGE PREVIEWS (CARDS) -->
+<section class="px-gutter">
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">grid_view</span>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">27×27 RGB Packet Windows</h2>
+</div>
+<button class="font-label-caps text-label-caps text-primary uppercase flex items-center" onclick="switchTab('tab-images')">
+            View All <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+          Raw Ethernet/IP/TCP payloads mapped onto 3-channel 729-pixel matrix tiles for deep feature extraction.
+        </p>
+<!-- 3 Cards Horizontal scroll or grid -->
+<div class="space-y-space-sm">
+<!-- Tile 1 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between gap-space-sm" onclick="openModal('Window 01', 'NORMAL', '50.16%', '49.84%', 'Legitimate HTTP GET Stream')">
+<div class="flex items-center gap-space-sm">
+<!-- Simulated 27x27 mini canvas -->
+<div class="w-12 h-12 rounded bg-surface-container-lowest grid grid-cols-6 grid-rows-6 gap-0.5 p-1 shrink-0">
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-secondary/80 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/60 rounded-[1px]"></span>
+<span class="bg-primary/90 rounded-[1px]"></span>
+<span class="bg-secondary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-tertiary/70 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/50 rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/90 rounded-[1px]"></span>
+<span class="bg-primary/50 rounded-[1px]"></span>
+<span class="bg-secondary/70 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/90 rounded-[1px]"></span>
+<span class="bg-tertiary/50 rounded-[1px]"></span>
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/80 rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-primary/50 rounded-[1px]"></span>
+<span class="bg-primary/90 rounded-[1px]"></span>
+<span class="bg-secondary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/70 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/80 rounded-[1px]"></span>
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-tertiary/50 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-[13px] text-on-surface font-semibold">Window 01</span>
+<span class="px-1.5 py-0.2 rounded bg-tertiary-container/30 text-tertiary font-label-caps text-[10px]">NORMAL</span>
+</div>
+<div class="font-mono-sm text-mono-sm text-on-surface-variant mt-0.5">
+                  P1–P9 • CNN Conf: <span class="text-on-surface font-medium">50.16%</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">chevron_right</span>
+</div>
+<!-- Tile 2: Threat -->
+<div class="p-space-sm rounded-lg bg-error-container/20 hover:bg-error-container/30 transition-colors cursor-pointer flex items-center justify-between gap-space-sm" onclick="openModal('Window 02', 'MALICIOUS', '50.03%', '49.97%', 'SYN Flood Signature')"><div class="flex items-center gap-space-sm"><div class="w-12 h-12 rounded bg-surface-container-lowest grid grid-cols-6 grid-rows-6 gap-0.5 p-1 shrink-0"><span class="bg-error/90 rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span><span class="bg-error/70 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-error/60 rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span><span class="bg-secondary/60 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-error/70 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-surface-variant rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span><span class="bg-error/60 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-secondary/50 rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span><span class="bg-error/70 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span><span class="bg-error/60 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-error/70 rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-surface-variant rounded-[1px]"></span><span class="bg-error/70 rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-secondary/40 rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-error/60 rounded-[1px]"></span><span class="bg-error/90 rounded-[1px]"></span><span class="bg-error/80 rounded-[1px]"></span></div><div class="min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="font-headline-sm text-[13px] text-error font-semibold">Window 02</span><span class="px-1.5 py-0.2 rounded bg-error-container text-error font-label-caps text-[10px] font-bold">MALICIOUS</span><span class="px-1 py-0.2 rounded bg-surface-variant text-secondary font-label-caps text-[9px]">LEVEL: LOW</span></div><div class="font-mono-sm text-mono-sm text-on-surface-variant mt-0.5">P10–P18 • CNN Conf: <span class="text-secondary font-medium">50.03% (Low)</span></div></div></div><span class="material-symbols-outlined text-secondary text-[18px]">info</span></div>
+<!-- Tile 3 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between gap-space-sm" onclick="openModal('Window 03', 'NORMAL', '50.32%', '49.68%', 'Encrypted TLS 1.3 Handshake')">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded bg-surface-container-lowest grid grid-cols-6 grid-rows-6 gap-0.5 p-1 shrink-0">
+<span class="bg-secondary/80 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/70 rounded-[1px]"></span>
+<span class="bg-tertiary/50 rounded-[1px]"></span>
+<span class="bg-primary/90 rounded-[1px]"></span>
+<span class="bg-secondary/50 rounded-[1px]"></span>
+<span class="bg-tertiary/70 rounded-[1px]"></span>
+<span class="bg-secondary/40 rounded-[1px]"></span>
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/60 rounded-[1px]"></span>
+<span class="bg-primary/50 rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/80 rounded-[1px]"></span>
+<span class="bg-secondary/70 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/90 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-tertiary/70 rounded-[1px]"></span>
+<span class="bg-secondary/50 rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/60 rounded-[1px]"></span>
+<span class="bg-secondary/70 rounded-[1px]"></span>
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-tertiary/80 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/50 rounded-[1px]"></span>
+<span class="bg-primary/90 rounded-[1px]"></span>
+<span class="bg-secondary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/70 rounded-[1px]"></span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-[13px] text-on-surface font-semibold">Window 03</span>
+<span class="px-1.5 py-0.2 rounded bg-tertiary-container/30 text-tertiary font-label-caps text-[10px]">NORMAL</span>
+</div>
+<div class="font-mono-sm text-mono-sm text-on-surface-variant mt-0.5">
+                  P19–P27 • CNN Conf: <span class="text-on-surface font-medium">50.32%</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<!-- INFERENCE RESULTS TABLE -->
+<section class="px-gutter">
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Recent Detection Results</h2>
+<div class="font-mono-sm text-mono-sm text-on-surface-variant">CNN Inference Real-Time Log</div>
+</div>
+<span class="material-symbols-outlined text-primary text-[20px]">dataset</span>
+</div>
+<!-- Filter Pills -->
+<div class="flex items-center gap-1 mb-space-sm">
+<button class="filter-pill px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-mono-sm text-[11px] font-semibold" onclick="filterResults('ALL', this)">
+            All (1,506)
+          </button>
+<button class="filter-pill px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-mono-sm text-[11px]" onclick="filterResults('MALICIOUS', this)">
+            Malicious (12)
+          </button>
+<button class="filter-pill px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-mono-sm text-[11px]" onclick="filterResults('NORMAL', this)">
+            Normal (1,494)
+          </button>
+</div>
+<!-- Table container -->
+<div class="overflow-x-auto -mx-space-xs">
+<table class="w-full text-left font-mono-sm text-mono-sm">
+<thead>
+<tr class="text-outline font-label-caps text-[10px] uppercase bg-surface-container-lowest/50">
+<th class="py-1.5 px-2">Time</th>
+<th class="py-1.5 px-2">Window</th>
+<th class="py-1.5 px-2">Prediction</th>
+<th class="py-1.5 px-2 text-right">Conf</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-transparent" id="detection-table-body">
+<tr class="result-row bg-transparent hover:bg-surface-container-high transition-colors" data-label="NORMAL">
+<td class="py-2 px-2 text-on-surface-variant">23:11:16</td>
+<td class="py-2 px-2 text-on-surface">Win 01</td>
+<td class="py-2 px-2">
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/20 text-tertiary text-[10px] font-semibold">NORMAL</span>
+</td>
+<td class="py-2 px-2 text-right text-on-surface font-semibold">50.16%</td>
+</tr>
+<tr class="result-row bg-error-container/10 hover:bg-error-container/20 transition-colors cursor-pointer" data-label="MALICIOUS" onclick="openModal('Window 02', 'MALICIOUS', '50.03%', '49.97%', 'SYN Flood Signature', 'LOW')"><td class="py-2 px-2 text-on-surface-variant">23:11:16</td><td class="py-2 px-2 text-error font-medium">Win 02</td><td class="py-2 px-2"><div class="flex items-center gap-1"><span class="px-1.5 py-0.5 rounded bg-error-container text-error text-[10px] font-bold">MALICIOUS</span><span class="px-1 py-0.2 rounded bg-surface-variant text-secondary text-[9px]">LOW</span></div></td><td class="py-2 px-2 text-right"><div class="text-secondary font-bold">50.03%</div><div class="text-[9px] text-outline">Level: LOW</div></td></tr>
+<tr class="result-row bg-transparent hover:bg-surface-container-high transition-colors" data-label="NORMAL">
+<td class="py-2 px-2 text-on-surface-variant">23:11:16</td>
+<td class="py-2 px-2 text-on-surface">Win 03</td>
+<td class="py-2 px-2">
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/20 text-tertiary text-[10px] font-semibold">NORMAL</span>
+</td>
+<td class="py-2 px-2 text-right text-on-surface font-semibold">50.32%</td>
+</tr>
+<tr class="result-row bg-transparent hover:bg-surface-container-high transition-colors" data-label="NORMAL">
+<td class="py-2 px-2 text-on-surface-variant">23:11:14</td>
+<td class="py-2 px-2 text-on-surface">Win 00</td>
+<td class="py-2 px-2">
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/20 text-tertiary text-[10px] font-semibold">NORMAL</span>
+</td>
+<td class="py-2 px-2 text-right text-on-surface font-semibold">50.28%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- RECENT PCAP CAPTURES CARD -->
+<section class="px-gutter">
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">folder_zip</span>
+<h3 class="font-headline-sm text-[14px] font-semibold text-on-surface">Recent PCAP Capture</h3>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-mono-sm text-[10px]">Npcap Native</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1.5">
+<div class="flex items-center justify-between font-mono-sm text-[11px]">
+<span class="text-on-surface font-medium truncate">anomaly_capture_20260921_231115.pcap</span>
+<span class="text-secondary shrink-0 font-semibold">6.1 KB</span>
+</div>
+<div class="grid grid-cols-2 gap-1 text-on-surface-variant font-mono-sm text-[10px]">
+<span class="">Packets: <strong class="text-on-surface">50 frames</strong></span>
+<span class="">Windows: <strong class="text-on-surface">5 tensors (P1-P45)</strong></span>
+<span class="">Trigger: <strong class="text-error">Rate &gt; 500 PPS</strong></span>
+<span class="">Status: <strong class="text-tertiary">Processed</strong></span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="flex-1 h-8 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-sm font-semibold flex items-center justify-center gap-1" onclick="switchTab('tab-images')">
+<span class="material-symbols-outlined text-[15px]">grid_4x4</span>
+<span class="">Inspect Windows</span>
+</button>
+<button class="flex-1 h-8 rounded bg-primary text-on-primary font-body-sm font-semibold flex items-center justify-center gap-1" onclick="downloadPcapMock()">
+<span class="material-symbols-outlined text-[15px]">download</span>
+<span class="">Export PCAP</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- TAB 2: LIVE TRAFFIC MONITOR & CHART -->
+<div class="tab-pane hidden flex flex-col gap-space-md" id="tab-monitor">
+<section class="px-gutter">
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Real-Time Traffic Monitor</h2>
+<div class="font-mono-sm text-mono-sm text-on-surface-variant">Live packet-rate telemetry</div>
+</div>
+<div class="text-right">
+<span class="font-mono-lg text-[18px] font-bold text-primary" id="chart-rate-display">124</span>
+<span class="font-mono-sm text-[11px] text-on-surface-variant">PPS</span>
+</div>
+</div>
+<!-- Telemetry Status Badges -->
+<div class="flex items-center gap-space-xs flex-wrap font-mono-sm text-[11px]">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface">Baseline: 120 PPS</span>
+<span class="px-2 py-0.5 rounded bg-surface-variant text-secondary">Threshold: 500 PPS</span>
+<span class="px-2 py-0.5 rounded bg-error-container/20 text-error font-semibold" id="chart-anomaly-tag">Anomaly: 520 PPS Triggered</span>
+</div>
+<!-- Dynamic High-Density SVG Telemetry Chart -->
+<div class="relative w-full h-48 rounded-lg bg-surface-container-lowest p-2 overflow-hidden">
+<!-- SVG Graph -->
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 340 160">
+<!-- Grid Lines -->
+<line stroke="#31353f" stroke-dasharray="3,3" stroke-width="0.8" x1="0" x2="340" y1="30" y2="30"></line>
+<line stroke="#31353f" stroke-dasharray="3,3" stroke-width="0.8" x1="0" x2="340" y1="75" y2="75"></line>
+<line stroke="#31353f" stroke-dasharray="3,3" stroke-width="0.8" x1="0" x2="340" y1="120" y2="120"></line>
+<!-- Anomaly Threshold Dashed Line (500 PPS marker) -->
+<line opacity="0.8" stroke="#f59e0b" stroke-dasharray="4,3" stroke-width="1.2" x1="0" x2="340" y1="38" y2="38"></line>
+<text fill="#f59e0b" font-family="JetBrains Mono" font-size="9" font-weight="600" x="5" y="34">ANOMALY THRESHOLD (500 PPS)</text>
+<!-- Gradient under curve -->
+<defs>
+<linearGradient id="streamGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.35"></stop>
+<stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.0"></stop>
+</linearGradient>
+</defs>
+<!-- Area Fill -->
+<polygon fill="url(#streamGrad)" points="
+              0,135
+              20,132
+              40,134
+              60,130
+              80,136
+              100,131
+              120,133
+              140,129
+              160,134
+              180,128
+              200,133
+              220,130
+              235,32
+              245,26
+              255,42
+              270,126
+              290,132
+              310,130
+              340,131
+              340,155
+              0,155
+            "></polygon>
+<!-- Telemetry Line Path -->
+<polyline fill="none" id="telemetry-chart-line" points="
+              0,135
+              20,132
+              40,134
+              60,130
+              80,136
+              100,131
+              120,133
+              140,129
+              160,134
+              180,128
+              200,133
+              220,130
+              235,32
+              245,26
+              255,42
+              270,126
+              290,132
+              310,130
+              340,131
+            " stroke="#89ceff" stroke-width="2"></polyline>
+<!-- Spike Vertical Marker & Callout -->
+<line stroke="#ef4444" stroke-dasharray="2,2" stroke-width="1.5" x1="245" x2="245" y1="20" y2="155"></line>
+<circle cx="245" cy="26" fill="#ef4444" r="4"></circle>
+<circle class="animate-ping" cx="245" cy="26" fill="#ef4444" opacity="0.3" r="8"></circle>
+<!-- Annotation Flag -->
+<rect fill="#93000a" height="18" rx="3" width="125" x="180" y="10"></rect>
+<text fill="#ffdad6" font-family="JetBrains Mono" font-size="8.5" font-weight="700" x="185" y="22">SPIKE: 520 PPS [23:11:15]</text>
+</svg>
+<!-- Time axis labels -->
+<div class="flex items-center justify-between font-mono-sm text-[9px] text-outline mt-1 px-1">
+<span class="">23:10:00</span>
+<span class="">23:10:30</span>
+<span class="">23:11:00</span>
+<span class="text-error font-bold">23:11:15</span>
+<span class="">23:11:30</span>
+</div>
+</div>
+<div class="p-space-xs rounded bg-surface-container-low font-body-sm text-[12px] text-on-surface-variant flex items-start gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[16px] shrink-0 mt-0.5">info</span>
+<span class="">
+<strong>Architectural Principle:</strong> Rate anomaly trigger initiates capture &amp; 9-packet chunking; it does NOT denote a malicious verdict until CNN ONNX tensor inference completes.
+          </span>
+</div>
+</div>
+</section>
+<!-- LIVE PACKET STREAM SNIPER -->
+<section class="px-gutter">
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-[14px] font-semibold text-on-surface">Live Ingest Frame FIFO</span>
+<span class="font-mono-sm text-[11px] text-tertiary">Promiscuous Mode</span>
+</div>
+<div class="space-y-1 font-mono-sm text-[11px]">
+<div class="p-1.5 rounded bg-surface-container-low flex items-center justify-between">
+<span class="text-on-surface">#12458 [TCP] 127.0.0.1:443 → :51280</span>
+<span class="text-outline">64B [ACK]</span>
+</div>
+<div class="p-1.5 rounded bg-surface-container-low flex items-center justify-between">
+<span class="text-on-surface">#12457 [TCP] 127.0.0.1:51280 → :443</span>
+<span class="text-outline">1420B [PSH, ACK]</span>
+</div>
+<div class="p-1.5 rounded bg-error-container/20 flex items-center justify-between text-error font-semibold">
+<span class="">#12456 [TCP] 127.0.0.1:58432 → :80</span>
+<span class="">40B [SYN] (Flagged Win 02)</span>
+</div>
+<div class="p-1.5 rounded bg-surface-container-low flex items-center justify-between">
+<span class="text-on-surface">#12455 [TCP] 127.0.0.1:58431 → :80</span>
+<span class="text-outline">40B [SYN]</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- TAB 3: PACKET IMAGES & TENSORS -->
+<div class="tab-pane hidden flex flex-col gap-space-md" id="tab-images">
+<section class="px-gutter">
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Sequential Packet Image Tensors</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Each sequential window batches 9 network packets. Payloads are normalized into a 27×27 RGB image tensor (729 pixels × 3 channels) for CNN spatial pattern detection.
+          </p>
+</div>
+<!-- Matrix Representation Cards Detail View -->
+<div class="grid grid-cols-1 gap-space-md">
+<!-- Tensor Item 1 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-headline-sm text-[13px] font-semibold text-on-surface">Window 01 (Packets 1–9)</span>
+<div class="font-mono-sm text-[11px] text-on-surface-variant">Normal Background Traffic</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-mono-sm text-[11px] font-semibold">NORMAL (50.16%)</span>
+</div>
+<div class="flex items-center gap-space-md">
+<!-- Enlarged 27x27 CSS Grid representation -->
+<div class="w-24 h-24 rounded bg-surface-container-lowest grid grid-cols-9 grid-rows-9 gap-0.5 p-1 shrink-0">
+<!-- 81 visual cells illustrating 27x27 matrix -->
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-secondary/80 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/60 rounded-[1px]"></span>
+<span class="bg-primary/90 rounded-[1px]"></span>
+<span class="bg-secondary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-tertiary/70 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/50 rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/90 rounded-[1px]"></span>
+<span class="bg-primary/50 rounded-[1px]"></span>
+<span class="bg-secondary/70 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/90 rounded-[1px]"></span>
+<span class="bg-tertiary/50 rounded-[1px]"></span>
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/80 rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-primary/50 rounded-[1px]"></span>
+<span class="bg-primary/90 rounded-[1px]"></span>
+<span class="bg-secondary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/70 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/80 rounded-[1px]"></span>
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-tertiary/50 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/50 rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/90 rounded-[1px]"></span>
+<span class="bg-primary/50 rounded-[1px]"></span>
+<span class="bg-secondary/70 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/90 rounded-[1px]"></span>
+<span class="bg-tertiary/50 rounded-[1px]"></span>
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/80 rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-primary/50 rounded-[1px]"></span>
+<span class="bg-primary/90 rounded-[1px]"></span>
+<span class="bg-secondary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/70 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/80 rounded-[1px]"></span>
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-tertiary/50 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/50 rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/90 rounded-[1px]"></span>
+<span class="bg-primary/50 rounded-[1px]"></span>
+<span class="bg-secondary/70 rounded-[1px]"></span>
+<span class="bg-primary/40 rounded-[1px]"></span>
+<span class="bg-tertiary/40 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-primary/60 rounded-[1px]"></span>
+<span class="bg-secondary/90 rounded-[1px]"></span>
+<span class="bg-tertiary/50 rounded-[1px]"></span>
+<span class="bg-primary/70 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-primary/80 rounded-[1px]"></span>
+<span class="bg-tertiary/80 rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-primary/50 rounded-[1px]"></span>
+</div>
+<div class="flex-1 space-y-1 font-mono-sm text-[11px]">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Normal Prob:</span>
+<span class="text-tertiary font-semibold">50.16%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[50.16%]"></div>
+</div>
+<div class="flex justify-between mt-1">
+<span class="text-on-surface-variant">Malicious Prob:</span>
+<span class="text-outline font-semibold">49.84%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-error h-full w-[49.84%]"></div>
+</div>
+</div>
+</div>
+<button class="w-full h-8 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-sm font-semibold flex items-center justify-center gap-1" onclick="openModal('Window 01', 'NORMAL', '50.16%', '49.84%', 'Standard TCP Traffic')">
+<span class="">Deep Matrix Inspection</span>
+</button>
+</div>
+<!-- Tensor Item 2 (Malicious) -->
+<div class="p-space-sm rounded-lg bg-error-container/15 flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-headline-sm text-[13px] font-semibold text-error">Window 02 (Packets 10–18)</span>
+<div class="font-mono-sm text-[11px] text-error font-medium">Anomalous Spike Pattern</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-error-container text-error font-mono-sm text-[11px] font-bold animate-pulse">MALICIOUS (50.03%)</span>
+</div>
+<div class="flex items-center gap-space-md">
+<!-- Enlarged 27x27 Red-Skewed Matrix -->
+<div class="w-24 h-24 rounded bg-surface-container-lowest grid grid-cols-9 grid-rows-9 gap-0.5 p-1 shrink-0">
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/60 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/60 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-secondary/50 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/60 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-secondary/40 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/60 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/60 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/60 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-secondary/50 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/60 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-surface-variant rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-secondary/40 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/60 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-error/70 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/60 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+<span class="bg-secondary/60 rounded-[1px]"></span>
+<span class="bg-error/90 rounded-[1px]"></span>
+<span class="bg-error/80 rounded-[1px]"></span>
+</div>
+<div class="flex-1 space-y-1 font-mono-sm text-[11px]">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Malicious Prob:</span>
+<span class="text-error font-bold">50.03%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-error h-full w-[50.03%]"></div>
+</div>
+<div class="flex justify-between mt-1">
+<span class="text-on-surface-variant">Normal Prob:</span>
+<span class="text-outline font-semibold">49.97%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[49.97%]"></div>
+</div>
+</div>
+</div>
+<button class="w-full h-8 rounded bg-error-container text-on-surface font-body-sm font-semibold flex items-center justify-center gap-1" onclick="openModal('Window 02', 'MALICIOUS', '50.03%', '49.97%', 'SYN Flood Signature')">
+<span class="">Inspect Threat Tensor</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- TAB 4: SYSTEM ENGINE SUBSYSTEM HEALTH -->
+<div class="tab-pane hidden flex flex-col gap-space-md" id="tab-system">
+<section class="px-gutter">
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Subsystem Health Matrix</h2>
+<div class="font-mono-sm text-mono-sm text-on-surface-variant">Embedded Core Components Status</div>
+</div>
+<div class="space-y-space-xs font-mono-sm text-[12px]">
+<div class="p-2 rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+<span class="text-on-surface">Npcap Packet Driver</span>
+</div>
+<span class="text-tertiary font-semibold">v1.79 Online</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+<span class="text-on-surface">Packet Capture Ring</span>
+</div>
+<span class="text-tertiary font-semibold">Ready (Zero-Drop)</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+<span class="text-on-surface">Java Pipeline Engine</span>
+</div>
+<span class="text-tertiary font-semibold">Operational (JDK 21)</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">bolt</span>
+<span class="text-on-surface">ONNX Runtime</span>
+</div>
+<span class="text-secondary font-semibold">v1.17 DirectML/CPU</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+<span class="text-on-surface">CNN Model (27×27×3)</span>
+</div>
+<span class="text-tertiary font-semibold truncate max-w-[120px]">weights_spin_v2</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+<span class="text-on-surface">Detection Log Database</span>
+</div>
+<span class="text-tertiary font-semibold">SQLite Synced</span>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest font-mono-sm text-[11px] text-on-surface-variant flex flex-col gap-1">
+<span class="text-outline uppercase font-label-caps">SPIN-IDS CNN</span>
+<span class="">Window Size: 9 consecutive frames</span>
+<span class="">Stride Offset: 1 packet</span>
+<span class="">Input Shape: [1, 3, 27, 27] FP32</span>
+<span class="">Inference Latency Target: &lt; 15.0ms</span>
+</div>
+</div>
+</section>
+</div>
+<!-- INTERACTIVE DETECTION DETAIL MODAL -->
+<div class="fixed inset-0 z-50 bg-surface-container-lowest/80 backdrop-blur-md hidden flex items-end sm:items-center justify-center p-0 sm:p-gutter" id="detection-modal"><div class="w-full max-w-lg bg-surface-container-high rounded-t-2xl sm:rounded-xl shadow-2xl overflow-hidden max-h-[777px] flex flex-col"><div class="p-space-md bg-surface-container flex items-center justify-between"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded bg-error-container text-error flex items-center justify-center" id="modal-badge-icon"><span class="material-symbols-outlined text-[18px]">info</span></div><div><h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface" id="modal-title">Detection Detail — Window 02</h3><span class="font-mono-sm text-mono-sm text-on-surface-variant" id="modal-subtitle">2026-09-21 23:11:16.785 • 9 Sequential Packets (Packet 1 → Packet 9)</span></div></div><button aria-label="Close modal" class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="closeModal()"><span class="material-symbols-outlined text-[20px]">close</span></button></div><div class="p-space-md overflow-y-auto space-y-space-md flex-1"><div class="p-space-sm rounded-lg bg-surface-container flex flex-col gap-2"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-outline uppercase">Prediction &amp; Confidence</span><div class="flex items-center gap-1"><span class="px-2 py-0.5 rounded bg-error-container text-error font-mono-sm text-[11px] font-bold" id="modal-pred-badge">MALICIOUS</span><span class="px-1.5 py-0.5 rounded bg-surface-variant text-secondary font-mono-sm text-[10px] font-semibold">LOW CONFIDENCE</span></div></div><div class="flex items-center justify-between font-mono-sm text-[12px]"><span class="text-on-surface-variant">Confidence:</span><span class="text-secondary font-bold text-[14px]" id="modal-conf-text">50.03% (Level: LOW)</span></div><div class="space-y-1"><div class="flex justify-between font-mono-sm text-[10px]"><span class="text-tertiary" id="modal-prob-normal-txt">Normal Probability: 49.97%</span><span class="text-error font-bold" id="modal-prob-mal-txt">Malicious Probability: 50.03%</span></div><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden flex"><div class="bg-tertiary h-full w-[49.97%]" id="modal-bar-normal"></div><div class="bg-error h-full w-[50.03%]" id="modal-bar-mal"></div></div></div></div><div><div class="flex items-center justify-between mb-1"><span class="font-label-caps text-label-caps text-outline uppercase">27×27 RGB Image Preview (729 features)</span><span class="font-mono-sm text-[10px] text-secondary">Window: Window 02</span></div><div class="p-2 rounded-lg bg-surface-container-lowest flex items-center justify-center"><div class="w-48 h-48 rounded bg-surface-container grid grid-cols-9 grid-rows-9 gap-0.5 p-1 shadow-inner" id="modal-matrix-grid"></div></div><div class="flex items-center justify-between font-mono-sm text-[10px] text-outline mt-1 px-1"><span class="">Offset: 0x000 (Packet 1 Header)</span><span class="">Offset: 0x2D9 (Packet 9 Payload)</span></div></div><div><div class="flex items-center justify-between mb-1"><span class="font-label-caps text-label-caps text-outline uppercase">Window Packet Sequence (9 Packets)</span><span class="font-mono-sm text-[10px] text-on-surface-variant">Sequential Stride: 1</span></div><div class="space-y-1 font-mono-sm text-[11px] max-h-32 overflow-y-auto pr-1"><div class="p-1.5 rounded bg-surface-container flex items-center justify-between"><span class="text-error font-semibold">Packet 1: TCP 127.0.0.1:48210 → :80</span><span class="text-on-surface-variant">SYN (seq=0, win=1024)</span></div><div class="p-1.5 rounded bg-surface-container flex items-center justify-between"><span class="text-error font-semibold">Packet 2: TCP 127.0.0.1:48211 → :80</span><span class="text-on-surface-variant">SYN (seq=0, win=1024)</span></div><div class="p-1.5 rounded bg-surface-container flex items-center justify-between"><span class="text-error font-semibold">Packet 3: TCP 127.0.0.1:48212 → :80</span><span class="text-on-surface-variant">SYN (seq=0, win=1024)</span></div><div class="p-1.5 rounded bg-surface-container flex items-center justify-between"><span class="text-on-surface">Packet 4: TCP 127.0.0.1:48213 → :80</span><span class="text-outline">SYN (seq=0, win=1024)</span></div><div class="p-1.5 rounded bg-surface-container flex items-center justify-between"><span class="text-on-surface">Packet 5: TCP 127.0.0.1:48214 → :80</span><span class="text-outline">SYN (seq=0, win=1024)</span></div></div></div><div class="p-space-sm rounded-lg bg-surface-container font-mono-sm text-[11px] space-y-1"><div class="flex justify-between"><span class="text-on-surface-variant">PCAP Filename:</span><span class="text-on-surface truncate max-w-[200px]">anomaly_capture_20260921_231115.pcap</span></div><div class="flex justify-between"><span class="text-on-surface-variant">Timestamp:</span><span class="text-on-surface font-semibold">2026-09-21 23:11:16.785</span></div></div></div><div class="p-space-md bg-surface-container flex items-center justify-end gap-space-sm"><button class="h-9 px-3 rounded bg-surface-container-high text-on-surface font-body-sm font-semibold flex items-center gap-1" onclick="exportWindowCsv()"><span class="material-symbols-outlined text-[16px]">file_download</span><span class="">Export CSV</span></button><button class="h-9 px-4 rounded bg-primary text-on-primary font-body-sm font-semibold" onclick="closeModal()">Close</button></div></div></div>
+<!-- TOAST FEEDBACK NOTIFICATION -->
+<div class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-lg bg-surface-container-highest text-on-surface font-mono-sm text-mono-sm shadow-xl flex items-center gap-2 transition-all opacity-0 pointer-events-none" id="toast-notify">
+<span class="material-symbols-outlined text-[16px] text-tertiary" id="toast-icon">check_circle</span>
+<span id="toast-msg" class="">Operation completed</span>
+</div>
+<!-- FOOTER -->
+<footer class="p-gutter mt-space-md text-center">
+<p class="font-mono-sm text-[10px] text-outline leading-relaxed">
+      SPIN-IDS: Sequential Packet Image-based Network Intrusion Detection System<br>
+      Prototype for academic cybersecurity research &amp; final-year engineering evaluation.
+    </p>
+</footer>
+</div>
+<!-- EMBEDDED JAVASCRIPT MICRO-INTERACTIONS -->
+<script>
+  // API Configuration: auto-detect relative host or default to local Java backend
+  const API_BASE = (window.location.protocol === 'http:' || window.location.protocol === 'https:') && window.location.port ? '' : 'http://localhost:8080';
+  let currentPcapFile = 'anomaly_capture_20260921_231115.pcap';
+  let cachedDetections = [];
+  let cachedWindows = {};
+
+  // Tab switching logic
+  function switchTab(tabId, clickedBtn) {
+    document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+    const target = document.getElementById(tabId);
+    if (target) target.classList.remove('hidden');
+
+    if (clickedBtn) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-surface-container-high', 'text-primary', 'font-semibold');
+        btn.classList.add('text-on-surface-variant', 'font-medium');
+      });
+      clickedBtn.classList.add('bg-surface-container-high', 'text-primary', 'font-semibold');
+      clickedBtn.classList.remove('text-on-surface-variant', 'font-medium');
+    }
+  }
+
+  // Engine state toggling via real backend API
+  async function toggleEngineState(state) {
+    const chip = document.getElementById('live-pcap-state-chip');
+    const chipText = document.getElementById('live-pcap-state-text');
+
+    try {
+      const endpoint = (state === 'STOPPED') ? '/api/engine/stop' : '/api/engine/start';
+      const res = await fetch(API_BASE + endpoint, { method: 'POST' });
+      const data = await res.json();
+
+      if (state === 'STOPPED') {
+        if (chip && chipText) {
+          chip.className = 'px-2 py-1 rounded-lg bg-surface-variant text-outline font-mono-sm text-mono-sm flex items-center gap-1 shrink-0';
+          chipText.innerText = 'STOPPED';
+        }
+        showToast(data.message || 'Capture Engine halted by operator', 'pause_circle');
+      } else {
+        if (chip && chipText) {
+          chip.className = 'px-2 py-1 rounded-lg bg-tertiary-container/20 text-tertiary font-mono-sm text-mono-sm flex items-center gap-1 shrink-0 font-medium';
+          chipText.innerText = 'MONITORING';
+        }
+        showToast(data.message || 'Live sniffing initiated on eth0', 'sensors');
+      }
+    } catch (err) {
+      console.warn('Backend offline, applied local state fallback:', err);
+      if (chip && chipText) {
+        chipText.innerText = state;
+      }
+      showToast('Engine state: ' + state, 'info');
+    }
+  }
+
+  // Anomaly Simulation Trigger via real backend CNN inference pipeline
+  async function triggerAnomalySimulation() {
+    showToast('Executing synthetic burst & CNN inference...', 'sync');
+
+    try {
+      const res = await fetch(API_BASE + '/api/engine/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ burstRate: 820.0, burstPackets: 50, targetPort: 54321 })
+      });
+
+      if (!res.ok) throw new Error('Simulation API error: ' + res.status);
+      const simData = await res.json();
+
+      if (simData.pcapFile) {
+        currentPcapFile = simData.pcapFile;
+      }
+
+      // Update KPI metrics
+      const rateEl = document.getElementById('kpi-rate');
+      const packetsEl = document.getElementById('kpi-packets');
+      const threatsEl = document.getElementById('kpi-threats');
+      const chip = document.getElementById('live-pcap-state-chip');
+      const chipText = document.getElementById('live-pcap-state-text');
+
+      if (rateEl) rateEl.innerHTML = `${Math.round(simData.burstRate || 820)} <span class="text-body-sm font-normal text-error">PPS</span>`;
+      if (packetsEl && simData.capturedPackets) {
+        packetsEl.innerText = (parseInt(packetsEl.innerText.replace(/,/g, '') || '12458') + simData.capturedPackets).toLocaleString();
+      }
+      if (threatsEl) {
+        const malCount = (simData.detections || []).filter(d => d.prediction === 'MALICIOUS').length;
+        threatsEl.innerText = (parseInt(threatsEl.innerText || '12') + malCount).toString();
+      }
+
+      if (chip && chipText) {
+        chip.className = 'px-2 py-1 rounded-lg bg-error-container text-error font-mono-sm text-mono-sm flex items-center gap-1 shrink-0 font-bold animate-pulse';
+        chipText.innerText = `ANOMALY DETECTED (${Math.round(simData.burstRate || 820)} PPS)`;
+      }
+
+      showToast(`CNN Inference Complete: ${simData.extractedWindows} windows analyzed`, 'check_circle');
+
+      // Refresh detection tables and data
+      await loadDashboardData();
+
+      // Find first malicious window or first result to inspect
+      const targetDetection = (simData.detections || []).find(d => d.prediction === 'MALICIOUS') || (simData.detections || [])[0];
+      if (targetDetection) {
+        setTimeout(() => {
+          openModal(
+            'Window ' + String(targetDetection.windowIndex).padStart(2, '0'),
+            targetDetection.prediction,
+            (targetDetection.confidence * 100).toFixed(2) + '%',
+            (targetDetection.normalProbability * 100).toFixed(2) + '%',
+            'CNN ONNX Tensor Inference'
+          );
+        }, 500);
+      }
+    } catch (err) {
+      console.warn('Simulation API unavailable, running simulated preview:', err);
+      // Fallback local preview
+      showToast('Simulation: Anomaly rate spike triggered CNN capture', 'warning');
+      setTimeout(() => {
+        openModal('Window 02 (Simulated)', 'MALICIOUS', '50.03%', '49.97%', 'TCP SYN Burst Ingestion');
+      }, 700);
+    }
+  }
+
+  // Modal inspection controller
+  async function openModal(windowName, pred, conf, normalProb, sig) {
+    const modal = document.getElementById('detection-modal');
+    if (!modal) return;
+
+    document.getElementById('modal-title').innerText = 'Detection Detail — ' + windowName;
+    document.getElementById('modal-pred-badge').innerText = pred;
+    document.getElementById('modal-conf-text').innerText = conf + ' (Level: ' + (pred === 'MALICIOUS' ? 'LOW' : 'HIGH') + ')';
+
+    const isMal = pred === 'MALICIOUS';
+    const badge = document.getElementById('modal-pred-badge');
+    const iconWrapper = document.getElementById('modal-badge-icon');
+
+    if (isMal) {
+      badge.className = 'px-2 py-0.5 rounded bg-error-container text-error font-mono-sm text-[11px] font-bold';
+      iconWrapper.className = 'w-7 h-7 rounded bg-error-container text-error flex items-center justify-center';
+    } else {
+      badge.className = 'px-2 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-mono-sm text-[11px] font-bold';
+      iconWrapper.className = 'w-7 h-7 rounded bg-tertiary-container/20 text-tertiary flex items-center justify-center';
+    }
+
+    // Try fetching real window tensor matrix from backend
+    const matchNum = windowName.match(/\d+/);
+    const winIdx = matchNum ? parseInt(matchNum[0]) : 2;
+    let matrixColors = null;
+
+    try {
+      const res = await fetch(API_BASE + '/api/windows/detail?index=' + winIdx);
+      if (res.ok) {
+        const detail = await res.json();
+        if (detail.matrixPreview && detail.matrixPreview.length >= 81) {
+          matrixColors = detail.matrixPreview;
+        }
+      }
+    } catch (ignored) {}
+
+    // Populate matrix visualizer preview in modal
+    const grid = document.getElementById('modal-matrix-grid');
+    if (grid) {
+      grid.innerHTML = '';
+      for (let i = 0; i < 81; i++) {
+        const cell = document.createElement('span');
+        cell.className = 'rounded-[1px]';
+        if (matrixColors && matrixColors[i]) {
+          cell.style.backgroundColor = matrixColors[i];
+        } else if (isMal) {
+          cell.className += (i % 3 === 0 || i % 7 === 0) ? ' bg-error/90' : (i % 2 === 0 ? ' bg-error/60' : ' bg-secondary/50');
+        } else {
+          cell.className += (i % 4 === 0) ? ' bg-primary/70' : (i % 2 === 0 ? ' bg-secondary/70' : ' bg-tertiary/60');
+        }
+        grid.appendChild(cell);
+      }
+    }
+
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('detection-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  // Filter pills in results table
+  function filterResults(filterType, clickedPill) {
+    document.querySelectorAll('.filter-pill').forEach(btn => {
+      btn.className = 'filter-pill px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-mono-sm text-[11px]';
+    });
+    if (clickedPill) {
+      clickedPill.className = 'filter-pill px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-mono-sm text-[11px] font-semibold';
+    }
+
+    const rows = document.querySelectorAll('#detection-table-body tr.result-row');
+    rows.forEach(row => {
+      if (filterType === 'ALL') {
+        row.style.display = '';
+      } else {
+        const label = row.getAttribute('data-label');
+        row.style.display = (label === filterType) ? '' : 'none';
+      }
+    });
+  }
+
+  // Load real data from backend
+  async function loadDashboardData() {
+    try {
+      // 1. Status & Telemetry
+      const statusRes = await fetch(API_BASE + '/api/status');
+      if (statusRes.ok) {
+        const status = await statusRes.json();
+        if (status.stats) {
+          const pEl = document.getElementById('kpi-packets');
+          const tEl = document.getElementById('kpi-threats');
+          if (pEl && status.stats.totalPackets) pEl.innerText = status.stats.totalPackets.toLocaleString();
+          if (tEl && status.stats.maliciousWindows !== undefined) tEl.innerText = status.stats.maliciousWindows;
+          if (status.stats.latestPcap) currentPcapFile = status.stats.latestPcap;
+        }
+      }
+
+      // 2. Detections list
+      const detRes = await fetch(API_BASE + '/api/detections?limit=30');
+      if (detRes.ok) {
+        const detections = await detRes.json();
+        if (Array.isArray(detections) && detections.length > 0) {
+          cachedDetections = detections;
+          renderDetectionTable(detections);
+        }
+      }
+    } catch (err) {
+      console.log('Backend initial sync notice:', err.message);
+    }
+  }
+
+  function renderDetectionTable(detections) {
+    const tbody = document.getElementById('detection-table-body');
+    if (!tbody || !detections.length) return;
+
+    tbody.innerHTML = '';
+    detections.forEach(d => {
+      const isMal = d.prediction === 'MALICIOUS';
+      const tr = document.createElement('tr');
+      tr.className = isMal
+        ? 'result-row bg-error-container/10 hover:bg-error-container/20 transition-colors cursor-pointer'
+        : 'result-row bg-transparent hover:bg-surface-container-high transition-colors cursor-pointer';
+      tr.setAttribute('data-label', d.prediction);
+
+      const timeStr = (d.timestamp || '').split(' ')[1] || '23:11:16';
+      const confPct = (d.confidence * 100).toFixed(2) + '%';
+      const winLabel = 'Win ' + String(d.windowIndex).padStart(2, '0');
+
+      tr.innerHTML = `
+        <td class="py-2 px-2 text-on-surface-variant">${timeStr}</td>
+        <td class="py-2 px-2 ${isMal ? 'text-error font-medium' : 'text-on-surface'}">${winLabel}</td>
+        <td class="py-2 px-2">
+          ${isMal
+            ? `<div class="flex items-center gap-1"><span class="px-1.5 py-0.5 rounded bg-error-container text-error text-[10px] font-bold">MALICIOUS</span><span class="px-1 py-0.2 rounded bg-surface-variant text-secondary text-[9px]">LOW</span></div>`
+            : `<span class="px-1.5 py-0.5 rounded bg-tertiary-container/20 text-tertiary text-[10px] font-semibold">NORMAL</span>`}
+        </td>
+        <td class="py-2 px-2 text-right ${isMal ? 'text-secondary font-bold' : 'text-on-surface font-semibold'}">${confPct}</td>
+      `;
+
+      tr.onclick = () => openModal(
+        winLabel,
+        d.prediction,
+        confPct,
+        (d.normalProbability * 100).toFixed(2) + '%',
+        isMal ? 'SYN Flood Signature' : 'Legitimate Traffic'
+      );
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Real-Time Server-Sent Events (SSE) Stream
+  function initTelemetryStream() {
+    try {
+      const sse = new EventSource(API_BASE + '/api/stream');
+
+      sse.addEventListener('rate', e => {
+        try {
+          const data = JSON.parse(e.data);
+          const ppsVal = Math.round(data.pps || 0);
+
+          // Update chart telemetry readout
+          const chartRateEl = document.getElementById('chart-rate-display');
+          if (chartRateEl) chartRateEl.innerText = ppsVal;
+
+          // Update header PPS telemetry tag
+          const headerPpsEl = document.querySelector('header span.font-mono-sm');
+          if (headerPpsEl && !data.anomalous) {
+            headerPpsEl.innerHTML = `<span class="inline-block w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>LIVE <span class="text-outline">|</span> ${ppsVal} PPS`;
+          }
+        } catch (ignored) {}
+      });
+
+      sse.addEventListener('detection', e => {
+        try {
+          const d = JSON.parse(e.data);
+          showToast(`New CNN Detection: Window ${d.windowIndex} (${d.prediction})`, d.prediction === 'MALICIOUS' ? 'warning' : 'check_circle');
+          loadDashboardData();
+        } catch (ignored) {}
+      });
+
+      sse.onerror = () => {
+        // SSE will auto-retry connection
+      };
+    } catch (err) {
+      console.log('SSE streaming not initialized:', err.message);
+    }
+  }
+
+  // Toast feedback utility
+  function showToast(msg, icon) {
+    const toast = document.getElementById('toast-notify');
+    const toastMsg = document.getElementById('toast-msg');
+    const toastIcon = document.getElementById('toast-icon');
+    if (!toast || !toastMsg) return;
+
+    toastMsg.innerText = msg;
+    if (toastIcon && icon) toastIcon.innerText = icon;
+
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'pointer-events-none');
+    }, 2800);
+  }
+
+  function downloadPcapMock() {
+    const downloadUrl = API_BASE + '/api/pcaps/download?file=' + encodeURIComponent(currentPcapFile);
+    window.open(downloadUrl, '_blank');
+    showToast('Downloading PCAP: ' + currentPcapFile, 'download_done');
+  }
+
+  function exportWindowCsv() {
+    const exportUrl = API_BASE + '/api/logs?format=csv';
+    window.open(exportUrl, '_blank');
+    showToast('Exporting detection CSV log', 'table_view');
+    closeModal();
+  }
+
+  // Initial load
+  document.addEventListener('DOMContentLoaded', () => {
+    loadDashboardData();
+    initTelemetryStream();
+  });
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container/90 backdrop-blur-xl" data-active-classes="text-primary"><div class="flex justify-around items-center h-16 px-gutter-sm"><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 w-14 h-12 transition-colors text-primary" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span class="font-label-caps text-[10px]">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-14 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-monitoring" href="#"><span class="material-symbols-outlined text-[20px]">radar</span><span class="font-label-caps text-[10px]">Live Mon</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-14 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="detection-results" href="#"><span class="material-symbols-outlined text-[20px]">security</span><span class="font-label-caps text-[10px]">Results</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-14 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="packet-images" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-label-caps text-[10px]">Images</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-14 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="detection-logs" href="#"><span class="material-symbols-outlined text-[20px]">terminal</span><span class="font-label-caps text-[10px]">Logs</span></a></div></nav>
+
+</body></html>

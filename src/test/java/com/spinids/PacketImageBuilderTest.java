@@ -154,4 +154,90 @@ public class PacketImageBuilderTest {
         assertTrue(savedFile.length() > 0);
         assertTrue(savedFile.getName().startsWith("flow_001_window_001"));
     }
+
+    @Test
+    public void testUnlimitedWindowGenerationAndAllImagesProduced() throws Exception {
+        // Create 15 windows to exceed the previous 10-window limit
+        List<SequentialPacketWindow> windows = new ArrayList<>();
+        for (int i = 1; i <= 15; i++) {
+            SequentialPacketWindow w = new SequentialPacketWindow("flow_unlimited", i, 1);
+            w.addPacket(null, 1000L + i, PacketDirection.FORWARD, 1);
+            windows.add(w);
+        }
+
+        String outputDir = tempDir.resolve("unlimited_images").toString();
+
+        // 1. Call with UNLIMITED_WINDOWS (-1)
+        List<File> files = PacketImageBuilder.generateImages(windows, outputDir, PacketImageBuilder.UNLIMITED_WINDOWS);
+        assertEquals(15, files.size(), "Unlimited generation must produce all 15 images");
+
+        for (File f : files) {
+            assertTrue(f.exists());
+            assertTrue(f.length() > 0);
+        }
+
+        // 2. Call with default overloaded method (no maxWindows argument)
+        String outputDir2 = tempDir.resolve("unlimited_images_2").toString();
+        List<File> files2 = PacketImageBuilder.generateImages(windows, outputDir2);
+        assertEquals(15, files2.size(), "Overloaded generateImages must also produce all 15 images");
+    }
+
+    @Test
+    public void testGenerateImagesWithManifestAndLabelTracking() throws Exception {
+        SequentialPacketWindow normalWin = new SequentialPacketWindow("flow_norm", 1, 1, "NORMAL");
+        for (int i = 1; i <= 9; i++) {
+            normalWin.addPacket(null, 1000L + i, PacketDirection.FORWARD, i);
+        }
+
+        SequentialPacketWindow malWin = new SequentialPacketWindow("flow_mal", 2, 1, "MALICIOUS");
+        for (int i = 1; i <= 4; i++) { // partial window with 4 packets
+            malWin.addPacket(null, 2000L + i, PacketDirection.FORWARD, i);
+        }
+
+        List<SequentialPacketWindow> windows = List.of(normalWin, malWin);
+
+        String outputDir = tempDir.resolve("manifest_images").toString();
+        String manifestPath = tempDir.resolve("manifest_images").resolve("test_manifest.csv").toString();
+
+        List<File> files = PacketImageBuilder.generateImages(
+                windows, outputDir, PacketImageBuilder.UNLIMITED_WINDOWS, manifestPath, "demo.pcap"
+        );
+
+        assertEquals(2, files.size());
+
+        File manifestFile = new File(manifestPath);
+        assertTrue(manifestFile.exists());
+        assertTrue(manifestFile.length() > 0);
+
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(manifestFile))) {
+            String header = reader.readLine();
+            assertEquals("image_path,flow_id,window_index,label,source,timestamp,packet_count", header);
+
+            String row1 = reader.readLine();
+            assertNotNull(row1);
+            assertTrue(row1.contains("NORMAL"));
+            assertTrue(row1.endsWith(",9")); // full 9 packets
+
+            String row2 = reader.readLine();
+            assertNotNull(row2);
+            assertTrue(row2.contains("MALICIOUS"));
+            assertTrue(row2.endsWith(",4")); // partial 4 packets
+        }
+    }
+
+    @Test
+    public void testLabelSupportInSequentialPacketWindow() {
+        SequentialPacketWindow win1 = new SequentialPacketWindow("flow1", 1, 1);
+        assertEquals(SequentialPacketWindow.DEFAULT_LABEL, win1.getLabel());
+        assertEquals("NORMAL", win1.getLabel());
+
+        SequentialPacketWindow win2 = new SequentialPacketWindow("flow2", 2, 1, "malicious");
+        assertEquals("MALICIOUS", win2.getLabel());
+
+        SequentialPacketWindow win3 = new SequentialPacketWindow("flow3", 3, 1, 9, "MALICIOUS");
+        assertEquals("MALICIOUS", win3.getLabel());
+
+        SequentialPacketWindow win4 = new SequentialPacketWindow("flow4", 4, 1, null);
+        assertEquals("NORMAL", win4.getLabel());
+    }
 }

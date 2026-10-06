@@ -17,8 +17,23 @@ import java.util.Locale;
  */
 public class FeatureDatasetWriter {
 
-    public static final String DEFAULT_OUTPUT_PATH = "dataset/features/normal_traffic_features.csv";
+    public static final String NORMAL_OUTPUT_PATH = "dataset/features/normal_traffic_features.csv";
+    public static final String MALICIOUS_OUTPUT_PATH = "dataset/features/malicious_traffic_features.csv";
+    public static final String DEFAULT_OUTPUT_PATH = NORMAL_OUTPUT_PATH;
     public static final String DEFAULT_LABEL = "NORMAL";
+
+    /**
+     * Resolves the default CSV feature dataset path based on the classification label.
+     *
+     * @param label classification label (e.g. "NORMAL", "MALICIOUS")
+     * @return label-aware feature CSV path
+     */
+    public static String getDefaultFeaturesPath(String label) {
+        if (label != null && "MALICIOUS".equalsIgnoreCase(label.trim())) {
+            return MALICIOUS_OUTPUT_PATH;
+        }
+        return NORMAL_OUTPUT_PATH;
+    }
 
     public static final String CSV_HEADER =
             "source_ip,destination_ip,source_port,destination_port,protocol," +

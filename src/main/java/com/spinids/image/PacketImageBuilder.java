@@ -26,8 +26,24 @@ public class PacketImageBuilder {
     // Bytes required per packet: 9 x 9 pixels x 3 color channels = 243 bytes
     public static final int BYTES_PER_PACKET = PACKET_PATCH_SIZE * PACKET_PATCH_SIZE * 3;
 
-    public static final int DEFAULT_MAX_WINDOWS = 10;
+    public static final int UNLIMITED_WINDOWS = -1;
+    public static final int DEFAULT_MAX_WINDOWS = UNLIMITED_WINDOWS;
     public static final String DEFAULT_OUTPUT_DIR = "dataset/images/";
+    public static final String NORMAL_OUTPUT_DIR = "dataset/images/normal/";
+    public static final String MALICIOUS_OUTPUT_DIR = "dataset/images/malicious/";
+
+    /**
+     * Resolves the default image output directory based on classification label.
+     *
+     * @param label classification label (e.g. "NORMAL", "MALICIOUS")
+     * @return label-aware image directory path
+     */
+    public static String getDefaultOutputDir(String label) {
+        if (label != null && "MALICIOUS".equalsIgnoreCase(label.trim())) {
+            return MALICIOUS_OUTPUT_DIR;
+        }
+        return NORMAL_OUTPUT_DIR;
+    }
 
     /**
      * Builds a 27x27 RGB BufferedImage from a 9-packet SequentialPacketWindow.
@@ -89,17 +105,50 @@ public class PacketImageBuilder {
     }
 
     /**
+     * Generates all PNG images for the given sequential windows without count limit.
+     *
+     * @param windows   list of completed sequential packet windows
+     * @param outputDir directory path to save images
+     * @return list of generated image files
+     * @throws IOException if saving fails
+     */
+    public static List<File> generateImages(List<SequentialPacketWindow> windows,
+                                            String outputDir) throws IOException {
+        return generateImages(windows, outputDir, UNLIMITED_WINDOWS, null, null);
+    }
+
+    /**
      * Generates and saves PNG images for the given sequential windows up to maxWindows.
+     * Use UNLIMITED_WINDOWS (-1) to generate all available windows.
      *
      * @param windows    list of completed sequential packet windows
      * @param outputDir  directory path to save images
-     * @param maxWindows maximum number of images to write
+     * @param maxWindows maximum number of images to write, or UNLIMITED_WINDOWS (-1)
      * @return list of generated image files
      * @throws IOException if saving fails
      */
     public static List<File> generateImages(List<SequentialPacketWindow> windows,
                                             String outputDir,
                                             int maxWindows) throws IOException {
+        return generateImages(windows, outputDir, maxWindows, null, null);
+    }
+
+    /**
+     * Generates and saves PNG images with metadata manifest recording.
+     *
+     * @param windows      list of completed sequential packet windows
+     * @param outputDir    directory path to save images
+     * @param maxWindows   maximum number of images to write, or UNLIMITED_WINDOWS (-1)
+     * @param manifestPath optional path to write dataset manifest CSV, or null to skip
+     * @param sourcePcap   optional source PCAP file name/path for manifest tracking
+     * @return list of generated image files
+     * @throws IOException if saving fails
+     */
+    public static List<File> generateImages(List<SequentialPacketWindow> windows,
+                                            String outputDir,
+                                            int maxWindows,
+                                            String manifestPath,
+                                            String sourcePcap) throws IOException {
         List<File> generatedFiles = new ArrayList<>();
         if (windows == null || windows.isEmpty()) {
             return generatedFiles;
@@ -110,6 +159,7 @@ public class PacketImageBuilder {
             dir.mkdirs();
         }
 
+        List<com.spinids.dataset.DatasetManifestWriter.ManifestEntry> manifestEntries = new ArrayList<>();
         int limit = (maxWindows > 0) ? Math.min(windows.size(), maxWindows) : windows.size();
         for (int i = 0; i < limit; i++) {
             SequentialPacketWindow window = windows.get(i);
@@ -119,6 +169,14 @@ public class PacketImageBuilder {
             BufferedImage image = buildImage(window);
             saveImage(image, outputFile);
             generatedFiles.add(outputFile);
+
+            if (manifestPath != null) {
+                manifestEntries.add(com.spinids.dataset.DatasetManifestWriter.createEntry(outputFile, window, sourcePcap));
+            }
+        }
+
+        if (manifestPath != null && !manifestEntries.isEmpty()) {
+            com.spinids.dataset.DatasetManifestWriter.writeManifest(manifestEntries, manifestPath);
         }
 
         return generatedFiles;
@@ -130,15 +188,30 @@ public class PacketImageBuilder {
     public static void printImageSummary(int packetsProcessed, int flowsFound,
                                          int windowsGenerated, int imagesGenerated,
                                          String outputDirectory) {
+        printImageSummary(packetsProcessed, flowsFound, windowsGenerated, 0, imagesGenerated, outputDirectory, null);
+    }
+
+    /**
+     * Prints an extended summary of the image building process including full/partial window counts and manifest path.
+     */
+    public static void printImageSummary(int packetsProcessed, int flowsFound,
+                                         int fullWindows, int partialWindows,
+                                         int imagesGenerated, String outputDirectory,
+                                         String manifestPath) {
         System.out.println("========================================");
         System.out.println("SPIN-IDS IMAGE BUILDER");
         System.out.println("========================================");
         System.out.println("Packets Processed : " + packetsProcessed);
         System.out.println("Flows Found       : " + flowsFound);
         System.out.println("Window Size       : " + WINDOW_SIZE);
-        System.out.println("Windows Generated : " + windowsGenerated);
+        System.out.println("Full Windows      : " + fullWindows);
+        System.out.println("Partial Windows   : " + partialWindows + " (zero-padded)");
+        System.out.println("Total Windows     : " + (fullWindows + partialWindows));
         System.out.println("Images Generated  : " + imagesGenerated);
         System.out.println("Output Directory  : " + outputDirectory);
+        if (manifestPath != null) {
+            System.out.println("Manifest File     : " + manifestPath);
+        }
         System.out.println("Status            : SUCCESS");
         System.out.println("========================================");
     }

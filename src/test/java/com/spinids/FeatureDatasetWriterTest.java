@@ -74,4 +74,16 @@ public class FeatureDatasetWriterTest {
         String row = FeatureDatasetWriter.formatRow(f, "NORMAL");
         assertEquals("10.0.0.1,10.0.0.2,1234,443,TCP,1000,2,300,150.0000,2.0000,300.0000,2,0,NORMAL", row);
     }
+
+    @Test
+    public void testLabelAwareFeaturePaths() {
+        assertEquals("dataset/features/normal_traffic_features.csv", FeatureDatasetWriter.NORMAL_OUTPUT_PATH);
+        assertEquals("dataset/features/malicious_traffic_features.csv", FeatureDatasetWriter.MALICIOUS_OUTPUT_PATH);
+
+        assertEquals(FeatureDatasetWriter.NORMAL_OUTPUT_PATH, FeatureDatasetWriter.getDefaultFeaturesPath("NORMAL"));
+        assertEquals(FeatureDatasetWriter.NORMAL_OUTPUT_PATH, FeatureDatasetWriter.getDefaultFeaturesPath("normal"));
+        assertEquals(FeatureDatasetWriter.MALICIOUS_OUTPUT_PATH, FeatureDatasetWriter.getDefaultFeaturesPath("MALICIOUS"));
+        assertEquals(FeatureDatasetWriter.MALICIOUS_OUTPUT_PATH, FeatureDatasetWriter.getDefaultFeaturesPath("malicious"));
+        assertEquals(FeatureDatasetWriter.NORMAL_OUTPUT_PATH, FeatureDatasetWriter.getDefaultFeaturesPath(null));
+    }
 }

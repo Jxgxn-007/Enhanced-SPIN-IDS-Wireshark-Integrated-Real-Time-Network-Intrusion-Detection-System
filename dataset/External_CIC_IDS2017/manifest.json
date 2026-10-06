@@ -1,0 +1,92 @@
+{
+  "dataset_name": "CIC-IDS2017 External Benchmark Subset (Wednesday)",
+  "version": "1.0-extracted",
+  "status": "EXTRACTED_AND_AUDITED",
+  "official_source": "https://www.unb.ca/cic/datasets/ids-2017.html",
+  "official_download_repo": "https://cicresearch.ca/CICDataset/CIC-IDS-2017/",
+  "storage_location": "D:\\SPIN-IDS-Datasets\\CIC-IDS2017\\Wednesday",
+  "source_pcap": {
+    "filename": "Wednesday-workingHours.pcap.clean",
+    "path": "D:\\SPIN-IDS-Datasets\\CIC-IDS2017\\Wednesday\\Wednesday-workingHours.pcap.clean",
+    "size_bytes": 13420789612,
+    "official_server_md5": "a8c9cd0ea22e3df6acc1c5972f38f0bf",
+    "verified_checksum": true
+  },
+  "packets": {
+    "total_examined": 13788878,
+    "matched_packets": 13704934,
+    "unmatched_ipv4_packets": 621,
+    "non_ipv4_packets": 83323,
+    "match_rate": "99.39%"
+  },
+  "flows": {
+    "total_tracked_in_pcap": 226669,
+    "total_labelled_in_csv": 226688,
+    "flows_ge_9_packets": 118984,
+    "flows_lt_9_packets": 107685,
+    "unmatched_csv_flows": 19
+  },
+  "windows": {
+    "total_windows": 350558,
+    "normal_windows": 281484,
+    "malicious_windows": 69074,
+    "attack_category_distribution": {
+      "BENIGN": 281484,
+      "DoS Hulk": 31775,
+      "DoS GoldenEye": 37290,
+      "DoS Slowhttptest": 1,
+      "DoS slowloris": 3,
+      "Heartbleed": 5
+    }
+  },
+  "split_statistics": {
+    "split_policy": "flow_level_isolated",
+    "train": {
+      "flows": 83288,
+      "windows": 245374,
+      "attack_distribution": {
+        "BENIGN": 196640,
+        "DoS Hulk": 22675,
+        "DoS GoldenEye": 26050,
+        "DoS Slowhttptest": 1,
+        "DoS slowloris": 3,
+        "Heartbleed": 5
+      }
+    },
+    "validation": {
+      "flows": 17847,
+      "windows": 52432,
+      "attack_distribution": {
+        "BENIGN": 42247,
+        "DoS Hulk": 4540,
+        "DoS GoldenEye": 5645
+      }
+    },
+    "test": {
+      "flows": 17849,
+      "windows": 52752,
+      "attack_distribution": {
+        "BENIGN": 42597,
+        "DoS Hulk": 4560,
+        "DoS GoldenEye": 5595
+      }
+    },
+    "leakage_verification": {
+      "train_val_overlap": 0,
+      "train_test_overlap": 0,
+      "val_test_overlap": 0,
+      "zero_leakage_verified": true
+    }
+  },
+  "specifications": {
+    "packet_length_bytes": 243,
+    "packets_per_window": 9,
+    "window_byte_length": 2187,
+    "model_input_dimension": [
+      27,
+      27,
+      3
+    ],
+    "ip_privacy_masking": true
+  }
+}

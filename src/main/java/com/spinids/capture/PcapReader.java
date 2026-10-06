@@ -123,7 +123,7 @@ public class PcapReader {
                         ConversationTracker conv = conversations.get(convKey);
                         if (conv == null) {
                             int flowIdx = conversations.size() + 1;
-                            conv = new ConversationTracker(convKey, flowIdx, epA);
+                            conv = new ConversationTracker(convKey, flowIdx, epA, label);
                             conversations.put(convKey, conv);
                         }
 
@@ -133,7 +133,7 @@ public class PcapReader {
                                 : PacketDirection.BACKWARD;
 
                         if (conv.currentWindow == null) {
-                            conv.currentWindow = new SequentialPacketWindow(convKey, conv.flowIndex, conv.windowCount + 1);
+                            conv.currentWindow = new SequentialPacketWindow(convKey, conv.flowIndex, conv.windowCount + 1, label);
                         }
 
                         conv.currentWindow.addPacket(packet, timeMillis, direction, conv.packetCount);
@@ -141,9 +141,22 @@ public class PcapReader {
                         if (conv.currentWindow.isFull()) {
                             completedWindows.add(conv.currentWindow);
                             conv.windowCount++;
-                            conv.currentWindow = new SequentialPacketWindow(convKey, conv.flowIndex, conv.windowCount + 1);
+                            conv.currentWindow = new SequentialPacketWindow(convKey, conv.flowIndex, conv.windowCount + 1, label);
                         }
                     }
+                }
+            }
+
+            // 2b. Flush partial windows from all active conversations (zero-padding will be applied during image build)
+            int fullWindowsCount = completedWindows.size();
+            int partialWindowsCount = 0;
+
+            for (ConversationTracker conv : conversations.values()) {
+                if (conv.currentWindow != null && conv.currentWindow.size() > 0) {
+                    completedWindows.add(conv.currentWindow);
+                    conv.windowCount++;
+                    partialWindowsCount++;
+                    conv.currentWindow = null;
                 }
             }
 
@@ -159,20 +172,24 @@ public class PcapReader {
             System.out.println("Label         : " + label);
             System.out.println("Status        : Successfully written\n");
 
-            // 4. Generate 2D RGB Images from sequential packet windows
+            // 4. Generate 2D RGB Images from sequential packet windows & create dataset manifest
             List<File> generatedImages = PacketImageBuilder.generateImages(
                     completedWindows,
-                    PacketImageBuilder.DEFAULT_OUTPUT_DIR,
-                    PacketImageBuilder.DEFAULT_MAX_WINDOWS
+                    imagesOutputDir,
+                    maxWindows,
+                    manifestPath,
+                    pcapFile
             );
 
             // 5. Print Image Builder Summary
             PacketImageBuilder.printImageSummary(
                     packetCount,
                     conversations.size(),
-                    completedWindows.size(),
+                    fullWindowsCount,
+                    partialWindowsCount,
                     generatedImages.size(),
-                    PacketImageBuilder.DEFAULT_OUTPUT_DIR
+                    imagesOutputDir,
+                    manifestPath
             );
 
         } catch (Exception e) {

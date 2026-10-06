@@ -1,0 +1,77 @@
+================================================================================
+SPIN-IDS DATASET AUDIT REPORT: CIC-IDS2017 WEDNESDAY SUBSET
+================================================================================
+Date: 2026-10-06
+Target: dataset/External_CIC_IDS2017/
+Source PCAP: D:\SPIN-IDS-Datasets\CIC-IDS2017\Wednesday\Wednesday-workingHours.pcap.clean
+Label CSV:   Wednesday-workingHours.pcap_ISCX.csv
+
+1. PACKET-LEVEL METRICS:
+  - Total packets examined:       13,788,878
+  - Matched to labelled flows:    13,704,934 (99.39%)
+  - Unmatched IPv4 packets:       621 (0.00%)
+  - Non-IPv4 packets:             83,323 (0.60%)
+
+2. FLOW-LEVEL METRICS:
+  - Total unique flows in PCAP:   226,669
+  - Total flows in official CSV:  226,688
+  - Flows with >= 9 packets:      118,984 (eligible for windows)
+  - Flows with < 9 packets:       107,685 (all BENIGN short flows)
+  - Unmatched CSV flows:          19
+
+3. 9-PACKET WINDOW METRICS (2,187 bytes = 27x27x3 RGB):
+  - Total Windows Generated:      350,558
+  - NORMAL Windows:               281,484 (80.30%)
+  - MALICIOUS Windows:            69,074 (19.70%)
+
+4. ATTACK CATEGORY DISTRIBUTION (WINDOWS):
+{
+  "BENIGN": 281484,
+  "DoS Hulk": 31775,
+  "DoS GoldenEye": 37290,
+  "DoS Slowhttptest": 1,
+  "DoS slowloris": 3,
+  "Heartbleed": 5
+}
+
+5. FLOW-LEVEL SPLIT & LEAKAGE VERIFICATION:
+  - Train Flows:      83,288 (70.0%) | Windows: 245,374
+  - Val Flows:        17,847 (15.0%) | Windows: 52,432
+  - Test Flows:       17,849 (15.0%) | Windows: 52,752
+  - Train & Val Overlap:   0
+  - Train & Test Overlap:  0
+  - Val & Test Overlap:    0
+  - Leakage Status:        ZERO FLOW LEAKAGE VERIFIED (100% DISJOINT)
+
+Split Attack Category Distribution (Windows):
+  Train:
+{
+    "BENIGN": 196640,
+    "DoS Hulk": 22675,
+    "DoS GoldenEye": 26050,
+    "DoS Slowhttptest": 1,
+    "DoS slowloris": 3,
+    "Heartbleed": 5
+}
+  Validation:
+{
+    "BENIGN": 42247,
+    "DoS Hulk": 4540,
+    "DoS GoldenEye": 5645
+}
+  Test:
+{
+    "BENIGN": 42597,
+    "DoS Hulk": 4560,
+    "DoS GoldenEye": 5595
+}
+
+6. GENERATED DATA FILES:
+  - Windows Index:    C:\Users\Jagan Marees\Desktop\Project 2026\SPIN-IDS\spin-ids\dataset\External_CIC_IDS2017\processed\windows.csv (53,520,950 bytes)
+  - Flow Manifest:    C:\Users\Jagan Marees\Desktop\Project 2026\SPIN-IDS\spin-ids\dataset\External_CIC_IDS2017\processed\flow_manifest.csv (11,825,483 bytes)
+  - Train Split:      C:\Users\Jagan Marees\Desktop\Project 2026\SPIN-IDS\spin-ids\dataset\External_CIC_IDS2017\processed\train.csv (1,421,547,138 bytes)
+  - Val Split:        C:\Users\Jagan Marees\Desktop\Project 2026\SPIN-IDS\spin-ids\dataset\External_CIC_IDS2017\processed\val.csv (303,829,290 bytes)
+  - Test Split:       C:\Users\Jagan Marees\Desktop\Project 2026\SPIN-IDS\spin-ids\dataset\External_CIC_IDS2017\processed\test.csv (305,823,625 bytes)
+
+Dataset Status: AUDITED AND READY (Model training withheld per prompt instructions)
+================================================================================

@@ -66,21 +66,33 @@ public class SequentialPacketWindow {
         }
     }
 
+    public static final String DEFAULT_LABEL = "NORMAL";
+
     private final String flowId;
     private final int flowIndex;
     private final int windowIndex;
     private final int targetWindowSize;
+    private final String label;
     private final List<PacketRecord> packets;
 
     public SequentialPacketWindow(String flowId, int flowIndex, int windowIndex) {
-        this(flowId, flowIndex, windowIndex, DEFAULT_WINDOW_SIZE);
+        this(flowId, flowIndex, windowIndex, DEFAULT_WINDOW_SIZE, DEFAULT_LABEL);
+    }
+
+    public SequentialPacketWindow(String flowId, int flowIndex, int windowIndex, String label) {
+        this(flowId, flowIndex, windowIndex, DEFAULT_WINDOW_SIZE, label);
     }
 
     public SequentialPacketWindow(String flowId, int flowIndex, int windowIndex, int targetWindowSize) {
+        this(flowId, flowIndex, windowIndex, targetWindowSize, DEFAULT_LABEL);
+    }
+
+    public SequentialPacketWindow(String flowId, int flowIndex, int windowIndex, int targetWindowSize, String label) {
         this.flowId = flowId;
         this.flowIndex = flowIndex;
         this.windowIndex = windowIndex;
         this.targetWindowSize = targetWindowSize;
+        this.label = (label != null && !label.trim().isEmpty()) ? label.trim().toUpperCase() : DEFAULT_LABEL;
         this.packets = new ArrayList<>(targetWindowSize);
     }
 
@@ -133,6 +145,10 @@ public class SequentialPacketWindow {
         return targetWindowSize;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
     public List<PacketRecord> getPackets() {
         return Collections.unmodifiableList(packets);
     }
@@ -146,7 +162,7 @@ public class SequentialPacketWindow {
 
     @Override
     public String toString() {
-        return String.format("SequentialPacketWindow[flow=#%d (%s), window=#%d, packets=%d/%d]",
-                flowIndex, flowId, windowIndex, packets.size(), targetWindowSize);
+        return String.format("SequentialPacketWindow[flow=#%d (%s), window=#%d, label=%s, packets=%d/%d]",
+                flowIndex, flowId, windowIndex, label, packets.size(), targetWindowSize);
     }
 }

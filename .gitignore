@@ -1,9 +1,45 @@
-@"
+# Java / IDE
 target/
 .idea/
 .vscode/
 *.iml
+
+# Node / Frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Large raw PCAP captures
 dataset/captures/*.pcap
 dataset/captures/*.pcapng
-dataset/images/*.png
-"@ | Set-Content .gitignore
+dataset/Real_PCAP/*.pcap
+dataset/Real_PCAP/*.pcapng
+
+# CIC-IDS2017 raw and processed data
+dataset/External_CIC_IDS2017/raw/
+dataset/External_CIC_IDS2017/processed/
+
+# Synthetic / experimental datasets
+dataset/Synthetic/
+dataset/Synthetic_Hard/
+dataset/Real_PCAP/
+
+# Generated images
+dataset/images/
+dataset/images/**/*.png
+
+# Generated feature/result data
+dataset/features/*.csv
+dataset/results/
+
+# ML generated artifacts
+ml/models/
+ml/results/
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Runtime generated captures
+captures/
