@@ -82,7 +82,15 @@ export const DetectionActivity: React.FC<DetectionActivityProps> = ({
                         {(item.confidence * 100).toFixed(2)}%
                       </td>
                       <td className="py-2.5 text-center">
-                        {isLowConf ? (
+                        {item.correlationStatus === 'CONFLICT_RESOLVED' ? (
+                          <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200" title="Cross-branch conflict resolved by score fusion">
+                            Conflict
+                          </span>
+                        ) : item.correlationStatus === 'AGREEMENT_NORMAL' || item.correlationStatus === 'AGREEMENT_MALICIOUS' ? (
+                          <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200" title="Both RGB and Byte branches in full agreement">
+                            Agreed (2/2)
+                          </span>
+                        ) : isLowConf ? (
                           <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
                             Low Confidence
                           </span>

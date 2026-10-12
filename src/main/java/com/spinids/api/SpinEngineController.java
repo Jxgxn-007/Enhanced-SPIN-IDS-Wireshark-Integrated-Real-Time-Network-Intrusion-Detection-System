@@ -9,6 +9,7 @@ import com.spinids.capture.PcapReader;
 import com.spinids.detection.DetectionResult;
 import com.spinids.detection.OnnxDetector;
 import com.spinids.generator.AnomalyTrafficGenerator;
+import com.spinids.image.CicIdsBytePreprocessor;
 import com.spinids.image.PacketImageBuilder;
 import com.spinids.image.SequentialPacketWindow;
 import com.spinids.trigger.AnomalyTrigger;
@@ -19,8 +20,10 @@ import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.TcpPacket;
 import org.pcap4j.packet.UdpPacket;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -64,6 +67,7 @@ public class SpinEngineController {
 
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicLong totalPackets = new AtomicLong(12458);
+    private final AtomicLong skippedIncompleteWindows = new AtomicLong(0);
     private final List<DetectionResult> detectionHistory = new CopyOnWriteArrayList<>();
     private final Map<Integer, WindowDetailDto> windowDetailCache = new ConcurrentHashMap<>();
 
@@ -133,9 +137,16 @@ public class SpinEngineController {
             }
         });
 
-        // Try initializing ONNX CNN detector
+        // Try initializing ONNX CNN detector (defaults to RGB_IMAGE unless configured)
         try {
-            this.detector = new OnnxDetector();
+            String modelProp = System.getProperty("spinids.detector.model", "RGB");
+            if ("BYTE".equalsIgnoreCase(modelProp) || "BYTE_1D".equalsIgnoreCase(modelProp)) {
+                this.detector = OnnxDetector.createByteDetector();
+            } else if ("HYBRID".equalsIgnoreCase(modelProp)) {
+                this.detector = OnnxDetector.createHybridDetector();
+            } else {
+                this.detector = new OnnxDetector();
+            }
         } catch (Exception e) {
             this.detectorError = e.getMessage();
             System.err.println("[-] Warning: Failed to load ONNX detector: " + e.getMessage());
@@ -210,11 +221,14 @@ public class SpinEngineController {
                 "status", "OPERATIONAL",
                 "runtime", "JDK " + System.getProperty("java.version")
         ));
-        subsystems.put("onnxRuntime", Map.of(
-                "status", (detector != null ? "READY" : "UNAVAILABLE"),
-                "model", "spin_ids_cnn.onnx (27x27x3)",
-                "error", (detectorError != null ? detectorError : "none")
-        ));
+        Map<String, Object> onnxInfo = new LinkedHashMap<>();
+        onnxInfo.put("status", detector != null ? "READY" : "UNAVAILABLE");
+        onnxInfo.put("model", detector != null ? detector.getModelDescription() : "spin_ids_cnn.onnx (27x27x3)");
+        onnxInfo.put("modelType", detector != null ? detector.getModelType().name() : "RGB_IMAGE");
+        onnxInfo.put("fusionAlpha", detector != null ? detector.getFusionAlpha() : 1.0);
+        onnxInfo.put("fusionThreshold", detector != null ? detector.getFusionThreshold() : 0.9);
+        onnxInfo.put("error", detectorError != null ? detectorError : "none");
+        subsystems.put("onnxRuntime", onnxInfo);
         subsystems.put("database", Map.of(
                 "status", "SYNCED",
                 "path", alertManager.getLogCsvPath()
@@ -227,6 +241,7 @@ public class SpinEngineController {
         stats.put("totalPackets", totalPkts);
         stats.put("totalWindows", Math.max(detectionHistory.size(), 1506));
         stats.put("maliciousWindows", maliciousCount);
+        stats.put("skippedIncompleteWindows", skippedIncompleteWindows.get());
         stats.put("latestPcap", latestPcapFilename);
 
         StatusResponse resp = new StatusResponse(
@@ -389,30 +404,39 @@ public class SpinEngineController {
             for (int i = 0; i < windows.size(); i++) {
                 SequentialPacketWindow window = windows.get(i);
                 int windowNum = startIndex + i;
-                BufferedImage image = PacketImageBuilder.buildImage(window);
+
+                // When in BYTE_1D or HYBRID mode, skip incomplete tail windows at capture boundary
+                // to avoid distribution mismatch and false-negative normal classifications.
+                if (detector != null
+                        && (detector.getModelType() == OnnxDetector.ModelType.BYTE_1D
+                            || detector.getModelType() == OnnxDetector.ModelType.HYBRID)
+                        && !window.isFull()) {
+                    skippedIncompleteWindows.incrementAndGet();
+                    System.out.println(String.format(
+                            "[*] [%s] Skipping incomplete tail window #%d (%d/%d pkts) for flow %s to prevent distribution mismatch and false NORMAL classification",
+                            detector.getModelType(), windowNum, window.size(), window.getTargetWindowSize(), window.getFlowId()));
+                    continue;
+                }
 
                 DetectionResult result = null;
                 if (detector != null) {
                     try {
-                        result = detector.detect(image, windowNum, window.getFlowId(), pcapFile.getName());
+                        result = detector.detect(window, windowNum, window.getFlowId(), pcapFile.getName());
                     } catch (Exception e) {
-                        System.err.println("[-] ONNX detection error for window " + windowNum + ": " + e.getMessage());
+                        System.err.println(String.format("[-] ONNX detection error for PCAP %s, window #%d: %s",
+                                pcapFile.getName(), windowNum, e.getMessage()));
                     }
+                } else {
+                    System.err.println(String.format("[-] ONNX detection skipped for PCAP %s, window #%d: detector is null (%s)",
+                            pcapFile.getName(), windowNum, detectorError != null ? detectorError : "uninitialized"));
                 }
 
                 if (result == null) {
-                    // Fallback deterministic classification
-                    result = new DetectionResult(
-                            pcapFile.getName(),
-                            windowNum,
-                            window.getFlowId(),
-                            (i % 2 == 1) ? "MALICIOUS" : "NORMAL",
-                            (i % 2 == 1) ? 0.4997 : 0.5016,
-                            (i % 2 == 1) ? 0.5003 : 0.4984,
-                            0.5003,
-                            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())
-                    );
+                    // Skip recording fabricated fallback detection and continue processing subsequent windows
+                    continue;
                 }
+
+                BufferedImage image = PacketImageBuilder.buildImage(window);
 
                 alertManager.handleDetection(result);
                 detectionHistory.add(0, result);
@@ -546,13 +570,29 @@ public class SpinEngineController {
         return running.get();
     }
 
+    public OnnxDetector getDetector() {
+        return detector;
+    }
+
+    public void setDetector(OnnxDetector detector) {
+        this.detector = detector;
+    }
+
+    public List<DetectionResult> getDetectionHistory() {
+        return Collections.unmodifiableList(detectionHistory);
+    }
+
+    public AlertManager getAlertManager() {
+        return alertManager;
+    }
+
     private void cacheWindowDetail(WindowDetailDto detail) {
         if (detail != null) {
             windowDetailCache.put(detail.getWindowIndex(), detail);
         }
     }
 
-    private WindowDetailDto createWindowDetailDto(SequentialPacketWindow window, int windowNum, BufferedImage image, DetectionResult result) {
+    public WindowDetailDto createWindowDetailDto(SequentialPacketWindow window, int windowNum, BufferedImage image, DetectionResult result) {
         WindowDetailDto dto = new WindowDetailDto();
         dto.setWindowIndex(windowNum);
         dto.setFlowId(window.getFlowId());
@@ -561,6 +601,21 @@ public class SpinEngineController {
         dto.setPacketCount(window.size());
         dto.setDetection(toDto(result));
 
+        // Generate genuine hex dump from the real 9-packet sequential window bytes
+        byte[] windowBytes = CicIdsBytePreprocessor.extractBytes(window);
+        dto.setHexDump(CicIdsBytePreprocessor.formatHexDump(windowBytes));
+        dto.setRawHex(CicIdsBytePreprocessor.toRawHexString(windowBytes));
+        dto.setByteCount(windowBytes.length);
+
+        // Encode genuine 27x27 BufferedImage as PNG base64 data URL
+        if (image != null) {
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(image, "PNG", baos);
+                dto.setImageBase64("data:image/png;base64," + Base64.getEncoder().encodeToString(baos.toByteArray()));
+            } catch (Exception ignored) {}
+        }
+
         List<WindowDetailDto.PacketItemDto> packetList = new ArrayList<>();
         for (int i = 0; i < window.size(); i++) {
             SequentialPacketWindow.PacketRecord rec = window.getPacket(i);
@@ -568,8 +623,12 @@ public class SpinEngineController {
             String flags = "-";
             String src = "127.0.0.1";
             String dst = "127.0.0.1";
+            String pktHex = null;
             if (rec != null && rec.getPacket() != null) {
                 Packet p = rec.getPacket();
+                if (p.getRawData() != null) {
+                    pktHex = CicIdsBytePreprocessor.toRawHexString(p.getRawData());
+                }
                 if (p.get(TcpPacket.class) != null) {
                     proto = "TCP";
                     flags = "SYN";
@@ -587,7 +646,8 @@ public class SpinEngineController {
                     i + 1, proto, src + ":4821" + i, dst + ":80",
                     (rec != null ? rec.getLength() : 64),
                     (rec != null && rec.getDirection() != null ? rec.getDirection().name() : "FORWARD"),
-                    flags
+                    flags,
+                    pktHex
             ));
         }
         dto.setPackets(packetList);
@@ -645,7 +705,7 @@ public class SpinEngineController {
 
     public static DetectionDto toDto(DetectionResult dr) {
         if (dr == null) return null;
-        return new DetectionDto(
+        DetectionDto dto = new DetectionDto(
                 dr.getPcapFile(),
                 dr.getWindowIndex(),
                 dr.getFlowKey(),
@@ -655,5 +715,21 @@ public class SpinEngineController {
                 dr.getConfidence(),
                 dr.getTimestamp()
         );
+        dto.setRgbPrediction(dr.getRgbPredictedLabel());
+        dto.setRgbNormalProbability(dr.getRgbNormalProbability());
+        dto.setRgbMaliciousProbability(dr.getRgbMaliciousProbability());
+        dto.setRgbConfidence(dr.getRgbConfidence());
+
+        dto.setBytePrediction(dr.getBytePredictedLabel());
+        dto.setByteNormalProbability(dr.getByteNormalProbability());
+        dto.setByteMaliciousProbability(dr.getByteMaliciousProbability());
+        dto.setByteConfidence(dr.getByteConfidence());
+
+        dto.setCorrelationStatus(dr.getCorrelationStatus() != null ? dr.getCorrelationStatus().name() : "SINGLE_BRANCH");
+        dto.setFusedMaliciousProbability(dr.getFusedMaliciousProbability());
+        dto.setFusionAlpha(dr.getFusionAlpha());
+        dto.setFusionThreshold(dr.getFusionThreshold());
+        dto.setDualBranch(dr.isDualBranch());
+        return dto;
     }
 }

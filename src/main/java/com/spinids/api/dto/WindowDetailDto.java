@@ -11,6 +11,10 @@ public class WindowDetailDto {
     private List<PacketItemDto> packets;
     private List<String> matrixPreview; // 81 hex color strings for 9x9 CSS visualizer
     private DetectionDto detection;
+    private String hexDump;             // Canonical formatted multi-line hexadecimal dump (Wireshark / hexdump -C)
+    private String rawHex;              // Continuous raw uppercase hex string
+    private int byteCount;              // Number of bytes represented in the hex dump
+    private String imageBase64;         // Full 27x27 RGB image PNG Data URL (data:image/png;base64,...)
 
     public static class PacketItemDto {
         private int sequence;
@@ -20,10 +24,15 @@ public class WindowDetailDto {
         private int length;
         private String direction;
         private String flags;
+        private String hex;
 
         public PacketItemDto() {}
 
         public PacketItemDto(int sequence, String protocol, String src, String dst, int length, String direction, String flags) {
+            this(sequence, protocol, src, dst, length, direction, flags, null);
+        }
+
+        public PacketItemDto(int sequence, String protocol, String src, String dst, int length, String direction, String flags, String hex) {
             this.sequence = sequence;
             this.protocol = protocol;
             this.src = src;
@@ -31,6 +40,7 @@ public class WindowDetailDto {
             this.length = length;
             this.direction = direction;
             this.flags = flags;
+            this.hex = hex;
         }
 
         public int getSequence() {
@@ -87,6 +97,14 @@ public class WindowDetailDto {
 
         public void setFlags(String flags) {
             this.flags = flags;
+        }
+
+        public String getHex() {
+            return hex;
+        }
+
+        public void setHex(String hex) {
+            this.hex = hex;
         }
     }
 
@@ -154,5 +172,37 @@ public class WindowDetailDto {
 
     public void setDetection(DetectionDto detection) {
         this.detection = detection;
+    }
+
+    public String getHexDump() {
+        return hexDump;
+    }
+
+    public void setHexDump(String hexDump) {
+        this.hexDump = hexDump;
+    }
+
+    public String getRawHex() {
+        return rawHex;
+    }
+
+    public void setRawHex(String rawHex) {
+        this.rawHex = rawHex;
+    }
+
+    public int getByteCount() {
+        return byteCount;
+    }
+
+    public void setByteCount(int byteCount) {
+        this.byteCount = byteCount;
+    }
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 }

@@ -96,19 +96,44 @@ public class SpinIdsLive {
             // Step 7: Load ONNX CNN model and AlertManager
             AlertManager alertManager = new AlertManager();
 
-            try (OnnxDetector detector = new OnnxDetector()) {
-                System.out.println("[*] ONNX CNN model loaded successfully (ml/models/spin_ids_cnn.onnx)");
-                System.out.println("[*] Executing inference on sequential packet window images...\n");
+            String modelProp = System.getProperty("spinids.detector.model", "RGB");
+            boolean useByte = "BYTE".equalsIgnoreCase(modelProp) || "BYTE_1D".equalsIgnoreCase(modelProp);
+            boolean useHybrid = "HYBRID".equalsIgnoreCase(modelProp);
 
+            OnnxDetector detectorInstance;
+            if (useByte) {
+                detectorInstance = OnnxDetector.createByteDetector();
+            } else if (useHybrid) {
+                detectorInstance = OnnxDetector.createHybridDetector();
+            } else {
+                detectorInstance = new OnnxDetector();
+            }
+
+            try (OnnxDetector detector = detectorInstance) {
+                System.out.println("[*] ONNX CNN model loaded successfully (" + detector.getModelDescription() + ")");
+                System.out.println("[*] Executing inference on sequential packet windows...\n");
+
+                int skippedPartialCount = 0;
                 for (SequentialPacketWindow window : windows) {
-                    BufferedImage image = PacketImageBuilder.buildImage(window);
+                    if ((detector.getModelType() == OnnxDetector.ModelType.BYTE_1D
+                            || detector.getModelType() == OnnxDetector.ModelType.HYBRID) && !window.isFull()) {
+                        skippedPartialCount++;
+                        System.out.println(String.format(
+                                "[*] [%s] Skipping incomplete tail window #%d (%d/%d pkts) for flow %s to prevent false NORMAL classification",
+                                detector.getModelType(), window.getWindowIndex(), window.size(), window.getTargetWindowSize(), window.getFlowId()));
+                        continue;
+                    }
                     DetectionResult result = detector.detect(
-                            image,
+                            window,
                             window.getWindowIndex(),
                             window.getFlowId(),
                             pcapFile.getName()
                     );
                     alertManager.handleDetection(result);
+                }
+                if (skippedPartialCount > 0) {
+                    System.out.println(String.format("[*] Total incomplete tail windows safely skipped in %s mode: %d",
+                            detector.getModelType(), skippedPartialCount));
                 }
             }
 

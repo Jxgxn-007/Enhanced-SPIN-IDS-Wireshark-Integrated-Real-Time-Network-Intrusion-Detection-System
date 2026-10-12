@@ -1,0 +1,27 @@
+{
+  "packet_count": 9,
+  "directions": [
+    0,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1
+  ],
+  "lengths": [
+    54,
+    60,
+    54,
+    243,
+    1500,
+    120,
+    54,
+    350,
+    60
+  ],
+  "total_encoded_bytes": 2187,
+  "sha256_encoded": "55890e439760cc118e946157ee8ff0f322da003b0db546e0800c1cb03b2f61c2"
+}

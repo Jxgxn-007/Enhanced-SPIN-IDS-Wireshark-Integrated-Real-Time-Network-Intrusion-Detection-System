@@ -68,6 +68,25 @@ export interface DetectionItem {
   maliciousProbability: number;
   confidence: number;
   timestamp: string;
+
+  // Dual-branch RGB fields
+  rgbPrediction?: 'NORMAL' | 'MALICIOUS' | string;
+  rgbNormalProbability?: number;
+  rgbMaliciousProbability?: number;
+  rgbConfidence?: number;
+
+  // Dual-branch Byte fields
+  bytePrediction?: 'NORMAL' | 'MALICIOUS' | string;
+  byteNormalProbability?: number;
+  byteMaliciousProbability?: number;
+  byteConfidence?: number;
+
+  // Score fusion & correlation metadata
+  correlationStatus?: 'AGREEMENT_NORMAL' | 'AGREEMENT_MALICIOUS' | 'CONFLICT_RESOLVED' | 'SINGLE_BRANCH' | string;
+  fusedMaliciousProbability?: number;
+  fusionAlpha?: number;
+  fusionThreshold?: number;
+  dualBranch?: boolean;
 }
 
 export interface SimulationRequest {
@@ -101,6 +120,7 @@ export interface PacketItem {
   length: number;
   direction: 'FORWARD' | 'BACKWARD';
   flags: string;
+  hex?: string;
 }
 
 export interface WindowDetail {
@@ -112,6 +132,10 @@ export interface WindowDetail {
   packets: PacketItem[];
   matrixPreview?: string[];
   detection?: DetectionItem;
+  hexDump?: string;
+  rawHex?: string;
+  byteCount?: number;
+  imageBase64?: string;
 }
 
 export interface TelemetryPoint {
