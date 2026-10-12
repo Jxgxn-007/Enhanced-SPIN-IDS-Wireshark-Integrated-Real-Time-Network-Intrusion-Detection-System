@@ -1,9 +1,11 @@
 package com.spinids.detection;
 
+import ai.onnxruntime.NodeInfo;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import ai.onnxruntime.TensorInfo;
 import com.spinids.image.CicIdsBytePreprocessor;
 import com.spinids.image.PacketImageBuilder;
 import com.spinids.image.SequentialPacketWindow;
@@ -22,7 +24,8 @@ import java.util.Map;
  */
 public class OnnxDetector implements AutoCloseable {
 
-    public static final String DEFAULT_MODEL_PATH = "ml/models/spin_ids_cnn.onnx";
+    public static final String DEFAULT_MODEL_PATH = "ml/models/cic_ids2017_rgb/best_rgb_cnn.onnx";
+    public static final String LEGACY_MODEL_PATH = "ml/models/spin_ids_cnn.onnx";
     public static final String DEFAULT_BYTE_MODEL_PATH = "ml/models/cic_ids2017_byte/best_byte_cnn.onnx";
     public static final String LABEL_NORMAL = "NORMAL";
     public static final String LABEL_MALICIOUS = "MALICIOUS";
@@ -44,6 +47,7 @@ public class OnnxDetector implements AutoCloseable {
     private final OrtEnvironment env;
     private final OrtSession session;
     private final String inputName;
+    private final boolean isNchw;
     private final ModelType modelType;
     private final String modelPath;
 
@@ -55,13 +59,35 @@ public class OnnxDetector implements AutoCloseable {
     private final double fusionThreshold;
 
     /**
-     * Initializes the detector using the default RGB model path (ml/models/spin_ids_cnn.onnx).
+     * Resolves the default RGB model path, checking system property "spinids.rgb.model" first.
+     */
+    public static String getDefaultRgbModelPath() {
+        String prop = System.getProperty("spinids.rgb.model");
+        if (prop != null && !prop.trim().isEmpty()) {
+            return prop.trim();
+        }
+        return DEFAULT_MODEL_PATH;
+    }
+
+    /**
+     * Resolves the default Byte model path, checking system property "spinids.byte.model" first.
+     */
+    public static String getDefaultByteModelPath() {
+        String prop = System.getProperty("spinids.byte.model");
+        if (prop != null && !prop.trim().isEmpty()) {
+            return prop.trim();
+        }
+        return DEFAULT_BYTE_MODEL_PATH;
+    }
+
+    /**
+     * Initializes the detector using the configured default RGB model path.
      *
      * @throws OrtException if ONNX Runtime fails to initialize
      * @throws FileNotFoundException if the model file does not exist
      */
     public OnnxDetector() throws OrtException, FileNotFoundException {
-        this(resolveModelPath(DEFAULT_MODEL_PATH), ModelType.RGB_IMAGE);
+        this(resolveModelPath(getDefaultRgbModelPath()), ModelType.RGB_IMAGE);
     }
 
     /**
@@ -88,7 +114,7 @@ public class OnnxDetector implements AutoCloseable {
      */
     public OnnxDetector(String modelPath, ModelType modelType) throws OrtException, FileNotFoundException {
         this(modelPath,
-             (modelType == ModelType.HYBRID) ? resolveModelPath(DEFAULT_BYTE_MODEL_PATH) : null,
+             (modelType == ModelType.HYBRID) ? resolveModelPath(getDefaultByteModelPath()) : null,
              modelType,
              parseDoubleProperty("spinids.fusion.alpha", DEFAULT_FUSION_ALPHA),
              parseDoubleProperty("spinids.fusion.threshold", DEFAULT_FUSION_THRESHOLD));
@@ -132,7 +158,7 @@ public class OnnxDetector implements AutoCloseable {
         OrtSession.SessionOptions options = new OrtSession.SessionOptions();
 
         if (this.modelType == ModelType.HYBRID) {
-            String resolvedRgb = resolveModelPath(modelPath != null ? modelPath : DEFAULT_MODEL_PATH);
+            String resolvedRgb = resolveModelPath(modelPath != null ? modelPath : getDefaultRgbModelPath());
             File rgbFile = new File(resolvedRgb);
             if (!rgbFile.exists()) {
                 throw new FileNotFoundException("RGB ONNX model not found at: " + rgbFile.getAbsolutePath());
@@ -143,8 +169,9 @@ public class OnnxDetector implements AutoCloseable {
                 throw new IllegalStateException("RGB ONNX model has no inputs");
             }
             this.inputName = session.getInputNames().iterator().next();
+            this.isNchw = detectNchwLayout(session, this.inputName);
 
-            String resolvedByte = resolveModelPath(byteModelPath != null ? byteModelPath : DEFAULT_BYTE_MODEL_PATH);
+            String resolvedByte = resolveModelPath(byteModelPath != null ? byteModelPath : getDefaultByteModelPath());
             File byteFile = new File(resolvedByte);
             if (!byteFile.exists()) {
                 session.close();
@@ -159,7 +186,7 @@ public class OnnxDetector implements AutoCloseable {
             }
             this.byteInputName = byteSession.getInputNames().iterator().next();
         } else {
-            String resolvedPath = resolveModelPath(modelPath);
+            String resolvedPath = resolveModelPath(modelPath != null ? modelPath : (this.modelType == ModelType.BYTE_1D ? getDefaultByteModelPath() : getDefaultRgbModelPath()));
             File modelFile = new File(resolvedPath);
             if (!modelFile.exists()) {
                 throw new FileNotFoundException("ONNX model not found at: " + modelFile.getAbsolutePath());
@@ -171,23 +198,45 @@ public class OnnxDetector implements AutoCloseable {
                 throw new IllegalStateException("ONNX model has no inputs");
             }
             this.inputName = session.getInputNames().iterator().next();
+            this.isNchw = (this.modelType == ModelType.RGB_IMAGE) ? detectNchwLayout(session, this.inputName) : false;
             this.byteSession = null;
             this.byteInputName = null;
         }
+    }
+
+    private static boolean detectNchwLayout(OrtSession session, String inputName) {
+        try {
+            Map<String, NodeInfo> inputInfoMap = session.getInputInfo();
+            if (inputInfoMap != null && inputInfoMap.containsKey(inputName)) {
+                NodeInfo nodeInfo = inputInfoMap.get(inputName);
+                if (nodeInfo != null && nodeInfo.getInfo() instanceof TensorInfo) {
+                    TensorInfo tensorInfo = (TensorInfo) nodeInfo.getInfo();
+                    long[] shape = tensorInfo.getShape();
+                    // NCHW layout: [batch, 3, 27, 27] where shape[1] == 3 (CHANNELS)
+                    // NHWC layout: [batch, 27, 27, 3] where shape[3] == 3 (CHANNELS)
+                    if (shape != null && shape.length == 4) {
+                        return shape[1] == CHANNELS;
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+            // Fallback heuristic if shape inspection fails
+        }
+        return "rgb_input".equalsIgnoreCase(inputName);
     }
 
     /**
      * Creates an ONNX detector configured for 2D RGB packet images (default).
      */
     public static OnnxDetector createRgbDetector() throws OrtException, FileNotFoundException {
-        return new OnnxDetector(resolveModelPath(DEFAULT_MODEL_PATH), ModelType.RGB_IMAGE);
+        return new OnnxDetector(resolveModelPath(getDefaultRgbModelPath()), ModelType.RGB_IMAGE);
     }
 
     /**
      * Creates an ONNX detector configured for the 1D Byte CNN model (CIC-IDS2017).
      */
     public static OnnxDetector createByteDetector() throws OrtException, FileNotFoundException {
-        return new OnnxDetector(resolveModelPath(DEFAULT_BYTE_MODEL_PATH), ModelType.BYTE_1D);
+        return new OnnxDetector(resolveModelPath(getDefaultByteModelPath()), ModelType.BYTE_1D);
     }
 
     /**
@@ -197,14 +246,14 @@ public class OnnxDetector implements AutoCloseable {
     public static OnnxDetector createHybridDetector() throws OrtException, FileNotFoundException {
         double alpha = parseDoubleProperty("spinids.fusion.alpha", DEFAULT_FUSION_ALPHA);
         double threshold = parseDoubleProperty("spinids.fusion.threshold", DEFAULT_FUSION_THRESHOLD);
-        return new OnnxDetector(resolveModelPath(DEFAULT_MODEL_PATH), resolveModelPath(DEFAULT_BYTE_MODEL_PATH), alpha, threshold);
+        return new OnnxDetector(resolveModelPath(getDefaultRgbModelPath()), resolveModelPath(getDefaultByteModelPath()), alpha, threshold);
     }
 
     /**
      * Creates an ONNX detector configured for HYBRID dual-branch score fusion with explicit weights.
      */
     public static OnnxDetector createHybridDetector(double alpha, double threshold) throws OrtException, FileNotFoundException {
-        return new OnnxDetector(resolveModelPath(DEFAULT_MODEL_PATH), resolveModelPath(DEFAULT_BYTE_MODEL_PATH), alpha, threshold);
+        return new OnnxDetector(resolveModelPath(getDefaultRgbModelPath()), resolveModelPath(getDefaultByteModelPath()), alpha, threshold);
     }
 
     /**
@@ -271,26 +320,59 @@ public class OnnxDetector implements AutoCloseable {
         if (image == null) {
             throw new IllegalArgumentException("Image cannot be null");
         }
-        float[][][][] inputTensor = new float[1][IMAGE_HEIGHT][IMAGE_WIDTH][CHANNELS];
 
-        for (int y = 0; y < IMAGE_HEIGHT; y++) {
-            for (int x = 0; x < IMAGE_WIDTH; x++) {
-                int rgb = (x < image.getWidth() && y < image.getHeight()) ? image.getRGB(x, y) : 0;
-                float r = ((rgb >> 16) & 0xFF) / 255.0f;
-                float g = ((rgb >> 8) & 0xFF) / 255.0f;
-                float b = (rgb & 0xFF) / 255.0f;
+        float[][][][] inputTensor;
+        if (isNchw) {
+            // NCHW layout [1, 3, 27, 27] required by benchmark CIC-IDS2017 RGB CNN
+            inputTensor = new float[1][CHANNELS][IMAGE_HEIGHT][IMAGE_WIDTH];
+            for (int y = 0; y < IMAGE_HEIGHT; y++) {
+                for (int x = 0; x < IMAGE_WIDTH; x++) {
+                    int rgb = (x < image.getWidth() && y < image.getHeight()) ? image.getRGB(x, y) : 0;
+                    float r = ((rgb >> 16) & 0xFF) / 255.0f;
+                    float g = ((rgb >> 8) & 0xFF) / 255.0f;
+                    float b = (rgb & 0xFF) / 255.0f;
 
-                inputTensor[0][y][x][0] = r;
-                inputTensor[0][y][x][1] = g;
-                inputTensor[0][y][x][2] = b;
+                    inputTensor[0][0][y][x] = r;
+                    inputTensor[0][1][y][x] = g;
+                    inputTensor[0][2][y][x] = b;
+                }
+            }
+        } else {
+            // Legacy NHWC layout [1, 27, 27, 3] for backward compatibility with spin_ids_cnn.onnx
+            inputTensor = new float[1][IMAGE_HEIGHT][IMAGE_WIDTH][CHANNELS];
+            for (int y = 0; y < IMAGE_HEIGHT; y++) {
+                for (int x = 0; x < IMAGE_WIDTH; x++) {
+                    int rgb = (x < image.getWidth() && y < image.getHeight()) ? image.getRGB(x, y) : 0;
+                    float r = ((rgb >> 16) & 0xFF) / 255.0f;
+                    float g = ((rgb >> 8) & 0xFF) / 255.0f;
+                    float b = (rgb & 0xFF) / 255.0f;
+
+                    inputTensor[0][y][x][0] = r;
+                    inputTensor[0][y][x][1] = g;
+                    inputTensor[0][y][x][2] = b;
+                }
             }
         }
 
         try (OnnxTensor tensor = OnnxTensor.createTensor(env, inputTensor)) {
             Map<String, OnnxTensor> inputs = Collections.singletonMap(inputName, tensor);
             try (OrtSession.Result result = session.run(inputs)) {
-                float[][] probabilities = (float[][]) result.get(0).getValue();
-                return new float[] { probabilities[0][0], probabilities[0][1] };
+                float[][] rawOutputs = (float[][]) result.get(0).getValue();
+                float out0 = rawOutputs[0][0];
+                float out1 = rawOutputs[0][1];
+
+                if (isNchw) {
+                    // Benchmark model outputs raw unnormalized logits [logit0, logit1]
+                    // Apply numerically stable Softmax: p_i = exp(z_i - max(z)) / sum(exp(z - max(z)))
+                    float maxLogit = Math.max(out0, out1);
+                    float exp0 = (float) Math.exp(out0 - maxLogit);
+                    float exp1 = (float) Math.exp(out1 - maxLogit);
+                    float sum = exp0 + exp1;
+                    return new float[] { exp0 / sum, exp1 / sum };
+                } else {
+                    // Legacy model output is already Softmax probabilities
+                    return new float[] { out0, out1 };
+                }
             }
         }
     }
@@ -530,6 +612,10 @@ public class OnnxDetector implements AutoCloseable {
         return byteInputName;
     }
 
+    public boolean isNchw() {
+        return isNchw;
+    }
+
     public String getModelDescription() {
         if (modelType == ModelType.BYTE_1D) {
             return "best_byte_cnn.onnx (1x1x2187 Byte 1D)";
@@ -539,7 +625,9 @@ public class OnnxDetector implements AutoCloseable {
                     new File(byteModelPath).getName(),
                     fusionAlpha, fusionThreshold);
         } else {
-            return "spin_ids_cnn.onnx (27x27x3 RGB)";
+            return String.format("%s (%s RGB)",
+                    new File(modelPath).getName(),
+                    isNchw ? "3x27x27 NCHW" : "27x27x3 NHWC");
         }
     }
 

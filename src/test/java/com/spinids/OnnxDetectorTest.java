@@ -31,7 +31,8 @@ public class OnnxDetectorTest {
         try (OnnxDetector detector = new OnnxDetector()) {
             assertNotNull(detector);
             assertNotNull(detector.getInputName());
-            assertEquals("input", detector.getInputName());
+            assertTrue("rgb_input".equals(detector.getInputName()) || "input".equals(detector.getInputName()),
+                    "Input name should be rgb_input (audited model) or input (legacy model)");
         }
     }
 

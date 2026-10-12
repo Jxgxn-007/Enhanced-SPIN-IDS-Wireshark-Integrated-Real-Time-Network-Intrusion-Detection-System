@@ -76,7 +76,8 @@ public class ByteDetectorIntegrationTest {
         try (OnnxDetector defaultDetector = new OnnxDetector()) {
             assertNotNull(defaultDetector);
             assertEquals(ModelType.RGB_IMAGE, defaultDetector.getModelType());
-            assertEquals("input", defaultDetector.getInputName());
+            assertTrue("rgb_input".equals(defaultDetector.getInputName()) || "input".equals(defaultDetector.getInputName()),
+                    "Default detector input name must be rgb_input (audited) or input (legacy)");
             assertTrue(defaultDetector.getModelDescription().contains("RGB"));
         }
 
@@ -85,7 +86,8 @@ public class ByteDetectorIntegrationTest {
         assertTrue(byteDetector.getModelDescription().contains("Byte 1D"));
 
         assertEquals(ModelType.RGB_IMAGE, rgbDetector.getModelType());
-        assertEquals("input", rgbDetector.getInputName());
+        assertTrue("rgb_input".equals(rgbDetector.getInputName()) || "input".equals(rgbDetector.getInputName()),
+                "RGB detector input name must be rgb_input (audited) or input (legacy)");
     }
 
     @Test
