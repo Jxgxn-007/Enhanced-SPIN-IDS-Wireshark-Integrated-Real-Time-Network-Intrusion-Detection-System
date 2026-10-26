@@ -38,7 +38,6 @@ public class PacketImageBuilderTest {
         assertTrue(window.isFull());
         assertFalse(window.addPacket(null, 2000L, PacketDirection.FORWARD, 10)); // Window is full
 
-        // Verify packet ordering and directions
         for (int i = 0; i < 9; i++) {
             SequentialPacketWindow.PacketRecord record = window.getPacket(i);
             assertNotNull(record);
@@ -51,12 +50,10 @@ public class PacketImageBuilderTest {
 
     @Test
     public void testPacketPreprocessorDeterminismAndSafety() {
-        // Null packet handling
         byte[] nullBytes = PacketPreprocessor.preprocess(null);
         assertNotNull(nullBytes);
         assertEquals(PacketPreprocessor.DEFAULT_BYTES_PER_PACKET, nullBytes.length);
 
-        // Preprocess with direction and sequence
         byte[] fwdBytes1 = PacketPreprocessor.preprocess(null, PacketDirection.FORWARD, 3, 243);
         byte[] fwdBytes2 = PacketPreprocessor.preprocess(null, PacketDirection.FORWARD, 3, 243);
         byte[] bwdBytes = PacketPreprocessor.preprocess(null, PacketDirection.BACKWARD, 3, 243);
@@ -123,15 +120,13 @@ public class PacketImageBuilderTest {
         assertEquals(4, partialWindow.size());
         assertFalse(partialWindow.isFull());
 
-        // Must not crash, should produce valid 27x27 image with zero-padded empty slots
+        
         BufferedImage image = PacketImageBuilder.buildImage(partialWindow);
         assertNotNull(image);
         assertEquals(27, image.getWidth());
         assertEquals(27, image.getHeight());
 
-        // Slot 8 (bottom-right patch: px 18..26, py 18..26) should be empty/zero-padded
         int paddedRgb = image.getRGB(20, 20);
-        // Byte 0 of unpopulated slot is 0, so R=0, G=0, B=0
         assertEquals(0, paddedRgb & 0x00FFFFFF, "Unpopulated slots must be zero-padded");
     }
 
