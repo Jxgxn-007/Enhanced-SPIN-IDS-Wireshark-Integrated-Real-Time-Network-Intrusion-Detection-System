@@ -72,7 +72,7 @@ export const Topbar: React.FC<TopbarProps> = ({
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-base font-bold text-slate-900 tracking-tight">
-              SPIN-IDS Network Intrusion Detection System
+              Bi-VAD NET: A Bi-Channel Visual and Byte-Level Analysis Framework for Real-Time Network Intrusion Detection
             </h1>
             <span
               className="inline-flex items-center gap-1 text-xs px-2.5 py-0.5 rounded bg-slate-100 text-slate-700 font-mono border border-slate-200 truncate max-w-[240px]"

@@ -23,7 +23,7 @@ export const System: React.FC<SystemProps> = ({ status, onRefresh }) => {
 
   const components = [
     {
-      name: 'SPIN-IDS Engine Orchestrator',
+      name: 'Bi-VAD NET Engine Orchestrator',
       status: engineRunning ? 'Running' : 'Stopped',
       desc: 'Central coordination daemon managing packet ingestion, window partition, and alerting',
       icon: <Server className="w-4 h-4 text-blue-600" />,
@@ -130,7 +130,7 @@ export const System: React.FC<SystemProps> = ({ status, onRefresh }) => {
           <div className="space-y-3 text-xs font-mono text-slate-600">
             <div className="flex justify-between p-2 rounded bg-slate-50">
               <span className="text-slate-500">Model Name:</span>
-              <span className="text-slate-900 font-bold">SPIN-IDS CNN / ONNX</span>
+              <span className="text-slate-900 font-bold">Bi-VAD NET CNN / ONNX</span>
             </div>
             <div className="flex justify-between p-2 rounded bg-slate-50">
               <span className="text-slate-500">Model File:</span>

@@ -53,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
           <div>
             <div className="font-semibold text-white tracking-tight flex items-center gap-1.5 text-sm">
-              SPIN-IDS
+              Bi-VAD NET
               <span className="text-[10px] font-mono uppercase px-1 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">
                 v1.0
               </span>
@@ -74,11 +74,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               key={item.id}
               onClick={() => onSelectPage(item.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-colors text-left font-medium ${
-                isActive
+              className={`w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-colors text-left font-medium ${isActive
                   ? 'bg-blue-600 text-white shadow-sm'
                   : 'text-slate-300 hover:text-white hover:bg-slate-800/80'
-              }`}
+                }`}
             >
               <span className={isActive ? 'text-white' : 'text-slate-400'}>{item.icon}</span>
               <span>{item.label}</span>
@@ -106,9 +105,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="p-3 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span
-            className={`w-2.5 h-2.5 rounded-full ${
-              engineRunning ? 'bg-emerald-500 ring-2 ring-emerald-500/20 animate-pulse' : 'bg-rose-500'
-            }`}
+            className={`w-2.5 h-2.5 rounded-full ${engineRunning ? 'bg-emerald-500 ring-2 ring-emerald-500/20 animate-pulse' : 'bg-rose-500'
+              }`}
           />
           <div className="text-xs">
             <div className="font-medium text-white">

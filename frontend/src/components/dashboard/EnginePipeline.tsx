@@ -100,7 +100,7 @@ export const EnginePipeline: React.FC<EnginePipelineProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 mb-4 border-b border-slate-100">
         <div>
           <h3 className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            <span>SPIN-IDS Ingestion-to-Inference Pipeline</span>
+            <span>Bi-VAD NET Ingestion-to-Inference Pipeline</span>
             <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
               8 Stages
             </span>
@@ -123,11 +123,10 @@ export const EnginePipeline: React.FC<EnginePipelineProps> = ({
           return (
             <div
               key={stage.num}
-              className={`p-3 rounded-lg border flex flex-col justify-between transition-colors relative ${
-                isAnomalyStage
+              className={`p-3 rounded-lg border flex flex-col justify-between transition-colors relative ${isAnomalyStage
                   ? 'bg-rose-50 border-rose-300 shadow-xs'
                   : 'bg-slate-50/70 border-slate-200 hover:bg-slate-50'
-              }`}
+                }`}
             >
               <div>
                 <div className="flex items-center justify-between mb-1.5">
@@ -135,11 +134,10 @@ export const EnginePipeline: React.FC<EnginePipelineProps> = ({
                     STAGE {stage.num}
                   </span>
                   <div
-                    className={`p-1 rounded ${
-                      isAnomalyStage
+                    className={`p-1 rounded ${isAnomalyStage
                         ? 'bg-rose-100 text-rose-600'
                         : 'bg-white border border-slate-200 text-slate-600'
-                    }`}
+                      }`}
                   >
                     {stage.icon}
                   </div>
@@ -155,13 +153,12 @@ export const EnginePipeline: React.FC<EnginePipelineProps> = ({
 
               <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between">
                 <span
-                  className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
-                    isAnomalyStage
+                  className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${isAnomalyStage
                       ? 'bg-rose-200/70 text-rose-800'
                       : stage.status === 'LOADED' || stage.status === 'ACTIVE'
-                      ? 'bg-emerald-100 text-emerald-800'
-                      : 'bg-slate-200 text-slate-700'
-                  }`}
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-slate-200 text-slate-700'
+                    }`}
                 >
                   {stage.status}
                 </span>

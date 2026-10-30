@@ -20,7 +20,7 @@ export function useEngine() {
         setSelectedInterface(data.selectedInterface);
       }
     } catch (err) {
-      setError((err as Error).message || 'Unable to connect to SPIN-IDS backend.');
+      setError((err as Error).message || 'Unable to connect to Bi-VAD NET backend.');
     } finally {
       setLoading(false);
     }
